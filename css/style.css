@@ -1,0 +1,15 @@
+.img-thumbnail {
+    width: 220px;
+}
+
+#navbar .nav-link {
+    color: #fff !important;
+}
+
+#navbar .nav-link:hover, #navbar a.active {
+    text-shadow: 2px 1px 6px #f8a085;
+}
+
+main {
+    min-height: 300px;
+}
