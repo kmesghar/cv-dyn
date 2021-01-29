@@ -50,13 +50,14 @@
 
         public function login($email, $password): bool {
             include_once __DIR__ . "/../dal/user.dao.php";
-            //$currentObject = &$this;
-            //$currentObject = UserDAO::login($email, $password);
+            // $currentObject = &$this;
+            // $currentObject = UserDAO::login($email, $password);
             $this-> clone(UserDAO::login($email, $password));
 
             if ($this-> id > 0)
                 return true;
-            else return false;
+            else
+                return false;
         }
 
         public function save(): bool {
@@ -67,7 +68,8 @@
 
             if ($this-> id > 0)
                 return true;
-            else return false;
+            else
+                return false;
         }
 
         public function get($id): bool {
@@ -80,7 +82,8 @@
 
             if ($this-> id > 0)
                 return true;
-            else return false;
+            else
+                return false;
         }
 
         public function delete(): Competence {
@@ -204,6 +207,7 @@
         public function getPhoto(): string {
             if ($this-> photo)
                 return $this-> photo;
-            else return "";
+            else
+                return "";
         }
     }

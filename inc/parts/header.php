@@ -16,21 +16,21 @@
             <nav>
                 <ul class="nav" id="navbar">
                     <li class="nav-item">
-                        <a href="./" class="nav-link <?php if ($page == "home") echo "active";?>">Accueil</a>
+                        <a href="./" class="nav-link <?php if ($page == "home") echo "active"; ?>">Accueil</a>
                     </li>
                     <li class="nav-item">
-                        <a href="./my-cv.php" class="nav-link <?php if ($page == "my-cv") echo "active";?>">Mon CV</a>
+                        <a href="./my-cv.php" class="nav-link <?php if ($page == "my-cv") echo "active"; ?>">Mon CV</a>
                     </li>
                     <li class="nav-item">
-                        <a href="./my-porte-folio.php" class="nav-link <?php if ($page == "my-portefolio") echo "active";?>">Mon Porte-Folio</a>
+                        <a href="./my-porte-folio.php" class="nav-link <?php if ($page == "my-portefolio") echo "active"; ?>">Mon Porte-Folio</a>
                     </li>
 
                     <?php if (isset($_SESSION["user"])): ?>
                     <li class="nav-item">
-                        <a href="./my-dashboard.php" class="nav-link <?php if ($page == "my-dashboard") echo "active";?>">Mon tableau de bord</a>
+                        <a href="./my-dashboard.php" class="nav-link <?php if ($page == "my-dashboard") echo "active"; ?>">Mon tableau de bord</a>
                     </li>
                     <li class="nav-item">
-                        <a href="./my-inbox.php" class="nav-link <?php if ($page == "my-inbox") echo "active";?>">Ma messagerie</a>
+                        <a href="./my-inbox.php" class="nav-link <?php if ($page == "my-inbox") echo "active"; ?>">Ma messagerie</a>
                     </li>
                     <li class="nav-item">
                         <a href="./logout.php" class="nav-link">Me déconnecter</a>
@@ -38,10 +38,10 @@
 
                     <?php else: ?>
                     <li class="nav-item">
-                        <a href="./contact.php" class="nav-link <?php if ($page == "contact") echo "active";?>">Me contacter</a>
+                        <a href="./contact.php" class="nav-link <?php if ($page == "contact") echo "active"; ?>">Me contacter</a>
                     </li>
                     <li class="nav-item">
-                        <a href="./login.php" class="nav-link <?php if ($page == "login") echo "active";?>">Me connecter</a>
+                        <a href="./login.php" class="nav-link <?php if ($page == "login") echo "active"; ?>">Me connecter</a>
                     </li>
                     <?php endif; ?>
                 </ul>
