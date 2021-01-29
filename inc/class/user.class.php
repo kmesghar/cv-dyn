@@ -4,6 +4,7 @@
         private ?string $nom;
         private ?string $prenom;
         private ?string $email;
+        private ?string $telephone;
         private ?string $hash;
         private ?string $poste;
         private ?string $adresse1;
@@ -12,13 +13,22 @@
         private ?string $ville;
         private ?string $photo;
 
-        public function __construct() {
-            $this-> id = 0;
-            $this-> nom = "";
-            $this-> prenom = "";
-            $this-> email = "";
-            $this-> telephone = "";
-            $this-> dateNaissance = "";
+        // Attention à cette propriété, comme la date de naissance n'est pas un string,
+        // et que l'on fetch des objets depuis la base de données, il faut tricher, PDO retourne les propriétés
+        // comme des string et non des instances du type déclaré, il faut donc veiller à ce que la propriété
+        // est, exceptionnellement, un nom différent à celui du champ correspondant dans la base, pour forcer
+        // PDO à taper dans le setter (le magic) et donc intercepter le string et créer une instance de la bonne
+        // classe, ici DateTime, la seule autre alternative est d'utiliser des tableaux associatifs (FETCH_ASSOC)
+        // et un "hydratateur"...
+        private ?DateTime $dateNaissance;
+
+        public function __construct($id = 0, $nom = "", $prenom = "", $email = "", $telephone = "", $datenaissance = "", $hash = "", $poste = "", $adresse1 = "", $adresse2 = "", $codepostal = "", $ville = "", $photo = "") {
+            $this-> id = $id;
+            $this-> nom = $nom;
+            $this-> prenom = $prenom;
+            $this-> email = $email;
+            $this-> telephone = $telephone;
+            $this-> dateNaissance = new DateTime($datenaissance);
             $this-> hash = "";
             $this-> poste = "";
             $this-> adresse1 = "";
@@ -33,25 +43,23 @@
         }
 
         private function clone(User $user): void {
-            $this-> id = $user-> id;
-            $this-> nom = $user-> nom;
-            $this-> prenom = $user-> prenom;
-            $this-> email = $user-> email;
-            $this-> telephone = $user-> telephone;
-            $this-> dateNaissance = $user-> dateNaissance;
-            $this-> hash = $user-> hash;
-            $this-> poste = $user-> poste;
-            $this-> adresse1 = $user-> adresse1;
-            $this-> adresse2 = $user-> adresse2;
-            $this-> codepostal = $user-> codepostal;
-            $this-> ville = $user-> ville;
-            $this-> photo = $user-> photo;
+            $this-> id = $user-> getId();
+            $this-> nom = $user-> getNom();
+            $this-> prenom = $user-> getPrenom();
+            $this-> email = $user-> getEmail();
+            $this-> telephone = $user-> getTelephone();
+            $this-> dateNaissance = $user-> getDateNaissance();
+            $this-> hash = $user-> getHash();
+            $this-> poste = $user-> posteRecherche();
+            $this-> adresse1 = $user-> getAdresse1();
+            $this-> adresse2 = $user-> getAdresse2();
+            $this-> codepostal = $user-> getCodepostal();
+            $this-> ville = $user-> getVille();
+            $this-> photo = $user-> getPhoto();
         }
 
         public function login($email, $password): bool {
             include_once __DIR__ . "/../dal/user.dao.php";
-            // $currentObject = &$this;
-            // $currentObject = UserDAO::login($email, $password);
             $this-> clone(UserDAO::login($email, $password));
 
             if ($this-> id > 0)
@@ -77,8 +85,6 @@
             include_once __DIR__ . "/../dal/user.dao.php";
 
             $this-> clone(UserDAO::get($id));
-            // $currentObject = &$this;
-            // $currentObject = UserDAO::login($email, $password);
 
             if ($this-> id > 0)
                 return true;
@@ -90,6 +96,24 @@
             include_once __DIR__ . "/../dal/user.dao.php";
 
             return UserDAO::delete($this-> id);
+        }
+
+        // Les getters et setters "magic"
+        public function __get($name) {
+            if ($name == "datenaissance") {
+                return $this-> dateNaissance;
+            } else {
+                return $this->$name;
+            }
+        }
+    
+        public function __set($name, $value) {
+            if ($name == "datenaissance") {
+                $this-> dateNaissance = new DateTime($value);
+            }
+            else {
+                $this->$name = $value;
+            }
         }
 
         // Les setters
@@ -118,8 +142,8 @@
             $this-> telephone = $telephone;
         }
 
-        public function setDateNaissance(DateTime $dateNaissance): void {
-            $this-> dateNaissance = $dateNaissance;
+        public function setDateNaissance(string $dateNaissance): void {
+            $this-> dateNaissance = new DateTime($dateNaissance);
         }
 
         public function setHash(string $hash): void {
@@ -170,6 +194,10 @@
         public function getTelephone(): string {
             return $this-> telephone;
         }
+        
+        public function getDateNaissance(): DateTime {
+            return $this-> datenaissance;
+        }
 
         public function getHash(): string {
             return $this-> hash;
@@ -193,7 +221,10 @@
         }
         
         public function getAdresse2(): string {
-            return $this-> adresse2;
+            if ($this-> adresse2)
+                return $this-> adresse2;
+            else
+                return "";
         }
 
         public function getCodePostal(): string {

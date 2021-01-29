@@ -1,7 +1,11 @@
 <?php
     session_name("my-dynamic-cv");
     session_start();
+
+    include_once "inc/class/article.class.php";
     
+    $articles = Article::loadAll();
+
     $page = "home";
     include_once "inc/parts/header.php";
 ?>

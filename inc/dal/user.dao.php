@@ -18,6 +18,7 @@
 
                 $results = $query-> fetchAll(PDO::FETCH_CLASS|PDO::FETCH_PROPS_LATE, "User");
                 // $results = $query-> fetchAll(PDO::FETCH_OBJ);
+                
 
                 if ($query-> rowCount()) {
                     if (password_verify($password, $results[0]-> getHash())) {
@@ -32,14 +33,44 @@
             }
         }
 
-        public static function save(User $user): bool {
+        public static function save(User $user): User {
             include_once __DIR__ . "/database.php";
 
             $sql = "";
-            if ($competence-> id > 0) {
-                $sql = "UPDATE users SET nom=:nom, prenom=:prenom WHERE id=:id;";
+            if ($user-> id > 0) {
+                $sql = "UPDATE users SET nom=:nom, prenom=:prenom, email=:email, telephone=:telephone, datenaissance=:datenaissance, hash=:hash, poste=:poste, adresse1=:adresse1, adresse2=:adresse2, codepostal=:codepostal, ville=:ville, photo=:photo WHERE id=:id;";
             } else {
-                $sql = "INSERT INTO users (nom, prenom) VALUES (:nom, :prenom);";
+                $sql = "INSERT INTO users (nom, prenom, email, telephone, datenaissance, hash, poste, adresse1, adresse2, codepostal, ville, photo) VALUES (:nom, :prenom, :email, :telephone, :datenaissance, :hash, :poste, :adresse1, :adresse2, :codepostal, :ville, :photo);";
+            }
+
+            try {
+                $connexionString = "mysql: host=" . Database::HOST . "; port=" . Database::PORT . "; dbname=" . Database::DBNAME . "; charset=utf8";
+                $database = new PDO($connexionString, Database::DBUSER, Database::DBPASS);
+                $database-> setattribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+                $query = $database-> prepare($sql);
+                $data = [
+                    'nom' => $user-> getNom(),
+                    'prenom' => $user-> getPrenom(),
+                    'email' => $user-> getEmail(),
+                    'telephone' => $user-> getTelephone(),
+                    'datenaissance' => $user-> getDateNaissance()-> format("Y-m-d"),
+                    'hash' => $user-> getHash(),
+                    'poste' => $user-> posteRecherche(),
+                    'adresse1' => $user-> getAdresse1(),
+                    'adresse2' => $user-> getAdresse2(),
+                    'codepostal' => $user-> getCodePostal(),
+                    'ville' => $user-> getVille(),
+                    'photo' => $user-> getPhoto(),
+                    'id' => $user-> getId()
+                ];
+
+                $query-> execute($data);
+
+                return $user;
+            } catch (Exception $exc) {
+                var_dump($exc);
+                return new User();
             }
         }
 
