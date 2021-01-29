@@ -51,7 +51,7 @@
 
         // Les méthodes plus spécifiques ou les redéfinition des méthodes magiques
         public function isset() {
-            if ($this-> id >0)
+            if ($this-> id > 0)
                 return true;
             else return false;
         }

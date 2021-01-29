@@ -17,7 +17,7 @@
                 $query-> execute();
 
                 $results = $query-> fetchAll(PDO::FETCH_CLASS|PDO::FETCH_PROPS_LATE, "User");
-                //$results = $query-> fetchAll(PDO::FETCH_OBJ);
+                // $results = $query-> fetchAll(PDO::FETCH_OBJ);
 
                 if ($query-> rowCount()) {
                     if (password_verify($password, $results[0]-> getHash())) {
@@ -27,7 +27,7 @@
                     return new User();
                 }
             } catch (Exception $exc) {
-                //var_dump($exc);
+                // var_dump($exc);
                 return new User();
             }
         }
@@ -58,7 +58,7 @@
                 $query-> execute();
 
                 $results = $query-> fetchAll(PDO::FETCH_CLASS|PDO::FETCH_PROPS_LATE, "User");
-                //$results = $query-> fetchAll(PDO::FETCH_OBJ);
+                // $results = $query-> fetchAll(PDO::FETCH_OBJ);
 
                 if ($query-> rowCount()) {
                     return $results[0];
@@ -66,7 +66,7 @@
                     return new User();
                 }
             } catch (Exception $exc) {
-                //var_dump($exc);
+                // var_dump($exc);
                 return new User();
             }
         }
