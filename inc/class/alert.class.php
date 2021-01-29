@@ -25,7 +25,7 @@
         }
 
         public function __toString() {
-            $out = "<div class='alert " . $this-> type . "'>";
+            $out = "<div class='alert " . $this-> type . "' py-1>";
             
             if ($this-> title != "") {
                 $out .= "   <h5 class='alert-heading'>" . $this-> title . "</h5>";
