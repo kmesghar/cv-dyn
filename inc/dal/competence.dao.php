@@ -2,7 +2,7 @@
     class CompetenceDAO {
         // Cette classe regroupe l'ensemble des requêtes SQL liées à la table 'competences'
 
-        public static function getAll(): array {
+        public static function loadAll(): array {
             include_once __DIR__ . "/database.php";
 
             $sql = "SELECT * FROM competences;";

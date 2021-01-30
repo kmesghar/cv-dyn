@@ -69,10 +69,10 @@
             $this-> date = $formation-> date;
         }
 
-        public static function getAll(): array {
+        public static function loadAll(): array {
             include_once __DIR__ . "/../dal/formation.dao.php";
 
-            return  FormationDAO::getAll();
+            return  FormationDAO::loadAll();
         }
 
         public function save(): bool {

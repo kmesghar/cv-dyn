@@ -58,10 +58,10 @@
             $this-> description = $competence-> description;
         }
 
-        public static function getAll(): array {
+        public static function loadAll(): array {
             include_once __DIR__ . "/../dal/competence.dao.php";
 
-            return  CompetenceDAO::getAll();
+            return  CompetenceDAO::loadAll();
         }
 
         public function save(): bool {

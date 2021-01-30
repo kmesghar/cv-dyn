@@ -10,10 +10,10 @@
 
     $user = new User();
     $user->get(1);
-    $competences = Competence::getAll();
-    $experiences = Experience::getAll();
-    $formations = Formation::getAll();
-    $loisirs = Loisir::getAll();
+    $competences = Competence::loadAll();
+    $experiences = Experience::loadAll();
+    $formations = Formation::loadAll();
+    $loisirs = Loisir::loadAll();
     
     $page = "my-cv";
     include_once "inc/parts/header.php";

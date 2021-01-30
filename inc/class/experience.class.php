@@ -69,10 +69,10 @@
             $this-> date = $experience-> date;
         }
 
-        public static function getAll(): array {
+        public static function loadAll(): array {
             include_once __DIR__ . "/../dal/experience.dao.php";
 
-            return  ExperienceDAO::getAll();
+            return  ExperienceDAO::loadAll();
         }
 
         public function save(): bool {

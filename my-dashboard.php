@@ -2,6 +2,16 @@
     session_name("my-dynamic-cv");
     session_start();
 
+    if (isset($_SESSION['LAST_ACTIVITY']) && (time() - $_SESSION['LAST_ACTIVITY'] > 15)) {
+        // last request was more than 30 minutes ago
+        session_unset();     // unset $_SESSION variable for the run-time 
+        session_destroy();   // destroy session data in storage
+    }
+    $_SESSION['LAST_ACTIVITY'] = time(); // update last activity time stamp
+    
+    if (!isset($_SESSION["user"]))
+        header("Location: ./");
+
     include_once "inc/class/alert.class.php";
     include_once "inc/class/article.class.php";
     include_once "inc/class/competence.class.php";

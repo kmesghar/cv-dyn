@@ -58,10 +58,10 @@
             $this-> description = $loisir-> description;
         }
 
-        public static function getAll(): array {
+        public static function loadAll(): array {
             include_once __DIR__ . "/../dal/loisir.dao.php";
 
-            return  LoisirDAO::getAll();
+            return  LoisirDAO::loadAll();
         }
 
         public function save(): bool {
