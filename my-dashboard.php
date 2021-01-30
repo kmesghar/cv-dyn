@@ -149,6 +149,47 @@
 
             <?php // Administration des articles (page d'accueil)
                 if ($action == "articles"): ?>
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>titre</th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th scope="row" class="px-2">1</th>
+                                <td class="px-2 w-100">un titre...</td>
+                                <td><button class="btn btn-sm btn-outline-secondary"><i class="fas fa-eye"></i></button></td>
+                                <td><button class="btn btn-sm btn-outline-secondary"><i class="fas fa-chevron-down"></i></i></button></td>
+                                <td></td>
+                                <td><button class="btn btn-sm btn-outline-secondary"><i class="fas fa-pen"></i></button></td>
+                                <td><button class="btn btn-sm btn-outline-secondary"><i class="fas fa-trash-alt"></i></button></td>
+                            </tr>
+                            <tr>
+                                <th scope="row" class="px-2">2</th>
+                                <td class="px-2 w-100">un titre...</td>
+                                <td><button class="btn btn-sm btn-outline-secondary"><i class="fas fa-eye"></i></button></td>
+                                <td><button class="btn btn-sm btn-outline-secondary"><i class="fas fa-chevron-down"></i></i></button></td>
+                                <td><button class="btn btn-sm btn-outline-secondary"><i class="fas fa-chevron-up"></i></i></button></td>
+                                <td><button class="btn btn-sm btn-outline-secondary"><i class="fas fa-pen"></i></button></td>
+                                <td><button class="btn btn-sm btn-outline-secondary"><i class="fas fa-trash-alt"></i></button></td>
+                            </tr>
+                            <tr>
+                                <th scope="row" class="px-2">3</th>
+                                <td class="px-2 w-100">un titre...</td>
+                                <td><button class="btn btn-sm btn-outline-secondary"><i class="fas fa-eye"></i></button></td>
+                                <td></td>
+                                <td><button class="btn btn-sm btn-outline-secondary"><i class="fas fa-chevron-up"></i></i></button></td>
+                                <td><button class="btn btn-sm btn-outline-secondary"><i class="fas fa-pen"></i></button></td>
+                                <td><button class="btn btn-sm btn-outline-secondary"><i class="fas fa-trash-alt"></i></button></td>
+                            </tr>
+                        </tbody>
+                    </table>
             <?php // Administration des compétences
                 elseif ($action == "competences"): ?>
             <?php // Administration des expériences
