@@ -12,25 +12,45 @@
     <main class="container mt-3">
         <h1>Mon CV en ligne dynamique avec porte-folio !</h1>
 
-        <p>
-            <img src="ressources/img/pc-1660564_960_720.jpg" alt="" class="img-thumbnail rounded">
-            Mon CV en ligne est dynamique et me permet de le mettre en jour facilement via une interface de gestion dédiée !
-        </p>
+        <div class="row mt-5">
+            <div class="col-3">
+                <img src="ressources/img/pc-1660564_960_720.jpg" alt="" class="img-thumbnail rounded">
+            </div>
+            <div class="col-9">
+                <h3>Malin !</h3>
+                Mon CV en ligne est dynamique et me permet de le mettre en jour facilement via une interface de gestion dédiée !
+            </div>
+        </div>
 
-        <p>
-            <img src="ressources/img/wordpress-876983_960_720.jpg" alt="" class="img-thumbnail rounded">
-            Agé de 43 ans, je suis un développeur web dynamique et blablabla ...
-        </p>
+        <div class="row mt-2">
+            <div class="col-3">
+                <img src="ressources/img/wordpress-876983_960_720.jpg" alt="" class="img-thumbnail rounded">
+            </div>
+            <div class="col-9">
+                <h3>Développeur !</h3>
+                Agé de 43 ans, je suis un développeur web dynamique et blablabla ...
+            </div>
+        </div>
 
-        <p>
-            <img src="ressources/img/wordpress-876983_960_720.jpg" alt="" class="img-thumbnail rounded">
-            Agé de 43 ans, je suis un développeur web dynamique et blablabla ...
-        </p>
+        <div class="row mt-2">
+            <div class="col-3">
+                <img src="ressources/img/wordpress-876983_960_720.jpg" alt="" class="img-thumbnail rounded">
+            </div>
+            <div class="col-9">
+                <h3>Dynamique !</h3>
+                Agé de 43 ans, je suis un développeur web dynamique et blablabla ...
+            </div>
+        </div>
 
-        <p>
+        <div class="row mt-2">
+            <div class="col-3">
             <img src="ressources/img/document-5608903_960_720.jpg" alt="" class="img-thumbnail rounded">
-            <a href="my-cv.php">Voir mon CV !</a> 
-        </p>
+            </div>
+            <div class="col-9">
+                <h3>Mon CV !</h3>
+                <a href="my-cv.php">Voir mon CV !</a> 
+            </div>
+        </div>
     </main>
 
     <?php

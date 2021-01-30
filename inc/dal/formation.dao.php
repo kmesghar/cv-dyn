@@ -10,7 +10,7 @@
             try {
                 $connexionString = "mysql: host=" . Database::HOST . "; port=" . Database::PORT . "; dbname=" . Database::DBNAME . "; charset=utf8";
                 $database = new PDO($connexionString, Database::DBNAME, Database::DBPASS);
-                $database-> setAttributes(PDO::ATTR_ERRMODE, ERRMODE_EXCEPTION);
+               $database-> setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
 
                 $query = $database-> prepare($sql);
                 $query-> execute();

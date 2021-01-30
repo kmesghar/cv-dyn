@@ -42,7 +42,9 @@
             if (isset($_POST["poste"])) {
                 $user-> setPosteRecherche($_POST["poste"]);
             }
-            //date de naissance et affichages correspondants
+            if (isset($_POST["datenaissance"])) {
+                $user-> setDateNaissance($_POST["datenaissance"]);
+            }
             if (isset($_POST["afficherdate"])) {
                 $user-> setAfficherDateNaissance(true);
             } else {
@@ -374,6 +376,57 @@
                     </table>
             <?php // Administration des loisirs
                 elseif ($action == "loisirs"): ?>
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>FA</th>
+                                <th>Loisir</th>
+                                <th>Description</th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th scope="row" class="px-2">1</th>
+                                <td class="px-2 text-nowrap"><i class="fas fa-parachute-box"></i></td>
+                                <td class="px-2 text-nowrap">Parachutisme...</td>
+                                <td class="px-2 w-100">Sa description...</td>
+                                <td><button class="btn btn-sm btn-outline-secondary"><i class="fas fa-eye"></i></button></td>
+                                <td><button class="btn btn-sm btn-outline-secondary"><i class="fas fa-pen"></i></button></td>
+                                <td><button class="btn btn-sm btn-outline-secondary"><i class="fas fa-trash-alt"></i></button></td>
+                            </tr>
+                            <tr>
+                                <th scope="row" class="px-2">2</th>
+                                <td class="px-2 text-nowrap"><i class="fas fa-skiing"></i></td>
+                                <td class="px-2 text-nowrap">Ski...</td>
+                                <td class="px-2 w-100">Sa description...</td>
+                                <td><button class="btn btn-sm btn-outline-secondary"><i class="fas fa-eye"></i></button></td>
+                                <td><button class="btn btn-sm btn-outline-secondary"><i class="fas fa-pen"></i></button></td>
+                                <td><button class="btn btn-sm btn-outline-secondary"><i class="fas fa-trash-alt"></i></button></td>
+                            </tr>
+                            <tr>
+                                <th scope="row" class="px-2">3</th>
+                                <td class="px-2 text-nowrap"><i class="fas fa-film"></i></td>
+                                <td class="px-2 text-nowrap">Cinéma...</td>
+                                <td class="px-2 w-100">Sa description...</td>
+                                <td><button class="btn btn-sm btn-outline-secondary"><i class="fas fa-eye"></i></button></td>
+                                <td><button class="btn btn-sm btn-outline-secondary"><i class="fas fa-pen"></i></button></td>
+                                <td><button class="btn btn-sm btn-outline-secondary"><i class="fas fa-trash-alt"></i></button></td>
+                            </tr>
+                            <tr>
+                                <th scope="row" class="px-2">3</th>
+                                <td class="px-2 text-nowrap"><i class="fas fa-book-reader"></i></td>
+                                <td class="px-2 text-nowrap">Lecture...</td>
+                                <td class="px-2 w-100">Sa description...</td>
+                                <td><button class="btn btn-sm btn-outline-secondary"><i class="fas fa-eye"></i></button></td>
+                                <td><button class="btn btn-sm btn-outline-secondary"><i class="fas fa-pen"></i></button></td>
+                                <td><button class="btn btn-sm btn-outline-secondary"><i class="fas fa-trash-alt"></i></button></td>
+                            </tr>
+                        </tbody>
+                    </table>
             <?php // Administration du profile (par défaut)
                 else: ?>
                         <div class="row justify-content-center">
