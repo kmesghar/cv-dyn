@@ -21,21 +21,25 @@
         // classe, ici DateTime, la seule autre alternative est d'utiliser des tableaux associatifs (FETCH_ASSOC)
         // et un "hydratateur"...
         private ?DateTime $dateNaissance;
+        private ?bool $afficherdatenaissance;
+        private ?bool $afficherage;
 
-        public function __construct($id = 0, $nom = "", $prenom = "", $email = "", $telephone = "", $datenaissance = "", $hash = "", $poste = "", $adresse1 = "", $adresse2 = "", $codepostal = "", $ville = "", $photo = "") {
+        public function __construct($id = 0, $nom = "", $prenom = "", $email = "", $telephone = "", $datenaissance = "", $afficherdatenaissance = false, $afficherage = false, $hash = "", $poste = "", $adresse1 = "", $adresse2 = "", $codepostal = "", $ville = "", $photo = "") {
             $this-> id = $id;
             $this-> nom = $nom;
             $this-> prenom = $prenom;
             $this-> email = $email;
             $this-> telephone = $telephone;
             $this-> dateNaissance = new DateTime($datenaissance);
-            $this-> hash = "";
-            $this-> poste = "";
-            $this-> adresse1 = "";
-            $this-> adresse2 = "";
-            $this-> codepostal = "";
-            $this-> ville = "";
-            $this-> photo = "";
+            $this-> afficherdatenaissance = $afficherdatenaissance;
+            $this-> afficherage = $afficherage;
+            $this-> hash = $hash;
+            $this-> poste = $poste;
+            $this-> adresse1 = $adresse1;
+            $this-> adresse2 = $adresse2;
+            $this-> codepostal = $codepostal;
+            $this-> ville = $ville;
+            $this-> photo = $photo;
         }
 
         public function __toString() {
@@ -49,6 +53,8 @@
             $this-> email = $user-> getEmail();
             $this-> telephone = $user-> getTelephone();
             $this-> dateNaissance = $user-> getDateNaissance();
+            $this-> afficherdatenaissance = $user-> getAfficherDateNaissance();
+            $this-> afficherage = $user-> getAfficherAge();
             $this-> hash = $user-> getHash();
             $this-> poste = $user-> posteRecherche();
             $this-> adresse1 = $user-> getAdresse1();
@@ -110,8 +116,7 @@
         public function __set($name, $value) {
             if ($name == "datenaissance") {
                 $this-> dateNaissance = new DateTime($value);
-            }
-            else {
+            } else {
                 $this->$name = $value;
             }
         }
@@ -144,6 +149,14 @@
 
         public function setDateNaissance(string $dateNaissance): void {
             $this-> dateNaissance = new DateTime($dateNaissance);
+        }
+
+        public function setAfficherDateNaissance(bool $afficherDateNaissance): void {
+            $this-> afficherdatenaissance = $afficherDateNaissance;
+        }
+
+        public function setAfficherAge(bool $afficherAge): void {
+            $this-> afficherage = $afficherAge;
         }
 
         public function setHash(string $hash): void {
@@ -199,6 +212,14 @@
             return $this-> datenaissance;
         }
 
+        public function getAfficherDateNaissance(): bool {
+            return $this-> afficherdatenaissance;
+        }
+
+        public function getAfficherAge(): bool {
+            return $this-> afficherage;
+        }
+
         public function getHash(): string {
             return $this-> hash;
         }
@@ -211,7 +232,7 @@
             $adress = $this-> adresse1;
 
             if ($this-> adresse2 != "")
-                $adress .= $this-> adresse2;
+                $adress .= "<br>" . $this-> adresse2;
 
             return $adress;
         }

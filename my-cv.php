@@ -32,22 +32,57 @@
                         <div class="col"><h3><?=$user;?></h3></div>
                     </div>
 
+                    <?php if ($user-> getAfficherDateNaissance()): ?>
+                        <div class="row">
+                            <div class="col"><i class="fas fa-birthday-cake"></i>
+                                <?= $user-> getDateNaissance()-> format("d/m/Y"); ?>
+                            </div>
+                        </div>
+                    <?php endif; ?>
+
+                    <?php if ($user-> getAfficherAge()): ?>
+                        <div class="row">
+                            <div class="col"><i class="fas fa-running"></i>
+                                <?php
+                                    $age = date('Y') - date('Y', $user-> getDateNaissance()-> getTimestamp());
+                                    if (date('md') < date('md', $user-> getDateNaissance()-> getTimestamp())) {
+                                        $age = $age - 1;
+                                    }
+
+                                    echo "$age ans";
+                                ?>
+                            </div>
+                        </div>
+                    <?php endif; ?>
+
                     <div class="row">
                         <div class="col">
-                            <p>
-                                <?=$user->getAdresse();?><br>
-                                <?=$user->getCodePostal() . " " . $user->getVille();?>
-                            </p>
+                            <div class="row">
+                                    <div class="col-1 py-0 my-0">
+                                        <i class="fas fa-map-marker-alt"></i>
+                                    </div>
+                                    <div class="col-11 py-0">
+                                        <?=$user->getAdresse();?>
+                                    </div>
+                            </div>
+                            <div class="row">
+                                    <div class="col-1 py-0 my-0">
+                                        <i class="fas fa-city"></i>
+                                    </div>
+                                    <div class="col-11 py-0">
+                                        <?=$user->getCodePostal() . " " . $user->getVille();?>
+                                    </div>
+                            </div>
                         </div>
                     </div>
 
                     <div class="row pb-1">
-                        <div class="col align-self-center"><?=$user->getTelephone();?></div>
+                        <div class="col align-self-center"><i class="fas fa-mobile-alt"></i> <?=$user->getTelephone();?></div>
                         <div class="col"><a href="tel:<?=$user->getTelephone();?>" class="btn btn-secondary w-50">M'appeller</a></div>
                     </div>
 
                     <div class="row">
-                        <div class="col align-self-center"><?=$user->getEmail();?></div>
+                        <div class="col align-self-center font-weight-bold"><i class="fas fa-at"></i> <?=$user->getEmail();?></div>
                         <div class="col"><a href="contact.php" class="btn btn-secondary w-50">Me contacter</a></div>
                     </div>
                 </div>

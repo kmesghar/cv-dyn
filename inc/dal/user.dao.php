@@ -38,9 +38,9 @@
 
             $sql = "";
             if ($user-> id > 0) {
-                $sql = "UPDATE users SET nom=:nom, prenom=:prenom, email=:email, telephone=:telephone, datenaissance=:datenaissance, hash=:hash, poste=:poste, adresse1=:adresse1, adresse2=:adresse2, codepostal=:codepostal, ville=:ville, photo=:photo WHERE id=:id;";
+                $sql = "UPDATE users SET nom=:nom, prenom=:prenom, email=:email, telephone=:telephone, datenaissance=:datenaissance, afficherdatenaissance=:afficherdatenaissance, afficherage=:afficherage, hash=:hash, poste=:poste, adresse1=:adresse1, adresse2=:adresse2, codepostal=:codepostal, ville=:ville, photo=:photo WHERE id=:id;";
             } else {
-                $sql = "INSERT INTO users (nom, prenom, email, telephone, datenaissance, hash, poste, adresse1, adresse2, codepostal, ville, photo) VALUES (:nom, :prenom, :email, :telephone, :datenaissance, :hash, :poste, :adresse1, :adresse2, :codepostal, :ville, :photo);";
+                $sql = "INSERT INTO users (nom, prenom, email, telephone, datenaissance, afficherdatenaissance, afficherage, hash, poste, adresse1, adresse2, codepostal, ville, photo) VALUES (:nom, :prenom, :email, :telephone, :datenaissance, , :afficherdatenaissance, :afficherage, :hash, :poste, :adresse1, :adresse2, :codepostal, :ville, :photo);";
             }
 
             try {
@@ -55,6 +55,8 @@
                     'email' => $user-> getEmail(),
                     'telephone' => $user-> getTelephone(),
                     'datenaissance' => $user-> getDateNaissance()-> format("Y-m-d"),
+                    'afficherdatenaissance' => ( $user-> getAfficherDateNaissance() ? '1' : '0' ),
+                    'afficherage' => ( $user-> getAfficherAge() ? '1' : '0' ),
                     'hash' => $user-> getHash(),
                     'poste' => $user-> posteRecherche(),
                     'adresse1' => $user-> getAdresse1(),

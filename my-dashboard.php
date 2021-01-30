@@ -2,7 +2,7 @@
     session_name("my-dynamic-cv");
     session_start();
 
-    if (isset($_SESSION['LAST_ACTIVITY']) && (time() - $_SESSION['LAST_ACTIVITY'] > 15)) {
+    if (isset($_SESSION['LAST_ACTIVITY']) && (time() - $_SESSION['LAST_ACTIVITY'] > 1800)) {
         // last request was more than 30 minutes ago
         session_unset();     // unset $_SESSION variable for the run-time 
         session_destroy();   // destroy session data in storage
@@ -29,6 +29,41 @@
         if ($_POST["action"] == "update") {
             if (isset($_POST["nom"])) {
                 $user-> setNom($_POST["nom"]);
+            }
+            if (isset($_POST["prenom"])) {
+                $user-> setPrenom($_POST["prenom"]);
+            }
+            if (isset($_POST["email"])) {
+                $user-> setEmail($_POST["email"]);
+            }
+            if (isset($_POST["telephone"])) {
+                $user-> setTelephone($_POST["telephone"]);
+            }
+            if (isset($_POST["poste"])) {
+                $user-> setPosteRecherche($_POST["poste"]);
+            }
+            //date de naissance et affichages correspondants
+            if (isset($_POST["afficherdate"])) {
+                $user-> setAfficherDateNaissance(true);
+            } else {
+                $user-> setAfficherDateNaissance(false);
+            }
+            if (isset($_POST["afficherage"])) {
+                $user-> setAfficherAge(true);
+            } else {
+                $user-> setAfficherAge(false);
+            }
+            if (isset($_POST["adresse1"])) {
+                $user-> setAdresse1($_POST["adresse1"]);
+            }
+            if (isset($_POST["adresse2"])) {
+                $user-> setAdresse2($_POST["adresse2"]);
+            }
+            if (isset($_POST["codepostal"])) {
+                $user-> setCodePostal($_POST["codepostal"]);
+            }
+            if (isset($_POST["ville"])) {
+                $user-> setVille($_POST["ville"]);
             }
         } elseif ($_POST["action"] == "photo") {
             if ($_FILES["file"]["tmp_name"]) {
@@ -144,7 +179,7 @@
                     <a href="?action=experiences" class="nav-link <?php if ($action == "experiences") echo "active"; ?>"><i class="fas fa-building"></i> Mon expérience</a>
                 </li>
                 <li class="nav-item">
-                    <a href="?action=formations" class="nav-link <?php if ($action == "formatiosn") echo "active"; ?>"><i class="fas fa-user-graduate"></i> Ma formation</a>
+                    <a href="?action=formations" class="nav-link <?php if ($action == "formations") echo "active"; ?>"><i class="fas fa-user-graduate"></i> Ma formation</a>
                 </li>
                 <li class="nav-item">
                     <a href="?action=loisirs" class="nav-link <?php if ($action == "loisirs") echo "active"; ?>"><i class="fas fa-gamepad"></i> Mes loisirs</a>
@@ -203,10 +238,140 @@
                     </table>
             <?php // Administration des compétences
                 elseif ($action == "competences"): ?>
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Compétence</th>
+                                <th>Description</th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th scope="row" class="px-2">1</th>
+                                <td class="px-2 text-nowrap">Une compétence...</td>
+                                <td class="px-2 w-100">Sa description...</td>
+                                <td><button class="btn btn-sm btn-outline-secondary"><i class="fas fa-eye"></i></button></td>
+                                <td><button class="btn btn-sm btn-outline-secondary"><i class="fas fa-pen"></i></button></td>
+                                <td><button class="btn btn-sm btn-outline-secondary"><i class="fas fa-trash-alt"></i></button></td>
+                            </tr>
+                            <tr>
+                                <th scope="row" class="px-2">2</th>
+                                <td class="px-2 text-nowrap">Une compétence...</td>
+                                <td class="px-2 w-100">Sa description...</td>
+                                <td><button class="btn btn-sm btn-outline-secondary"><i class="fas fa-eye"></i></button></td>
+                                <td><button class="btn btn-sm btn-outline-secondary"><i class="fas fa-pen"></i></button></td>
+                                <td><button class="btn btn-sm btn-outline-secondary"><i class="fas fa-trash-alt"></i></button></td>
+                            </tr>
+                            <tr>
+                                <th scope="row" class="px-2">3</th>
+                                <td class="px-2 text-nowrap">Une compétence...</td>
+                                <td class="px-2 w-100">Sa description...</td>
+                                <td><button class="btn btn-sm btn-outline-secondary"><i class="fas fa-eye"></i></button></td>
+                                <td><button class="btn btn-sm btn-outline-secondary"><i class="fas fa-pen"></i></button></td>
+                                <td><button class="btn btn-sm btn-outline-secondary"><i class="fas fa-trash-alt"></i></button></td>
+                            </tr>
+                        </tbody>
+                    </table>
             <?php // Administration des expériences
                 elseif ($action == "experiences"): ?>
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Début</th>
+                                <th>Fin</th>
+                                <th>Entreprise</th>
+                                <th>Poste occupé</th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th scope="row" class="px-2">1</th>
+                                <td class="px-2 text-nowrap">01/01/1970</td>
+                                <td class="px-2 text-nowrap">01/01/1980</td>
+                                <td class="px-2 text-nowrap">IBM</td>
+                                <td class="px-2 w-100">Développeur</td>
+                                <td><button class="btn btn-sm btn-outline-secondary"><i class="fas fa-eye"></i></button></td>
+                                <td><button class="btn btn-sm btn-outline-secondary"><i class="fas fa-pen"></i></button></td>
+                                <td><button class="btn btn-sm btn-outline-secondary"><i class="fas fa-trash-alt"></i></button></td>
+                            </tr>
+                            <tr>
+                                <th scope="row" class="px-2">2</th>
+                                <td class="px-2 text-nowrap">01/01/1980</td>
+                                <td class="px-2 text-nowrap">01/01/1990</td>
+                                <td class="px-2 text-nowrap">Apple</td>
+                                <td class="px-2 w-100">Développeur</td>
+                                <td><button class="btn btn-sm btn-outline-secondary"><i class="fas fa-eye"></i></button></td>
+                                <td><button class="btn btn-sm btn-outline-secondary"><i class="fas fa-pen"></i></button></td>
+                                <td><button class="btn btn-sm btn-outline-secondary"><i class="fas fa-trash-alt"></i></button></td>
+                            </tr>
+                            <tr>
+                                <th scope="row" class="px-2">3</th>
+                                <td class="px-2 text-nowrap">01/01/2000</td>
+                                <td class="px-2 text-nowrap">01/01/2010</td>
+                                <td class="px-2 text-nowrap">Microsoft</td>
+                                <td class="px-2 w-100">Développeur</td>
+                                <td><button class="btn btn-sm btn-outline-secondary"><i class="fas fa-eye"></i></button></td>
+                                <td><button class="btn btn-sm btn-outline-secondary"><i class="fas fa-pen"></i></button></td>
+                                <td><button class="btn btn-sm btn-outline-secondary"><i class="fas fa-trash-alt"></i></button></td>
+                            </tr>
+                        </tbody>
+                    </table>
             <?php // Administration des formations
                 elseif ($action == "formations"): ?>
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Date</th>
+                                <th class="text-nowrap">Diplôme / Titre</th>
+                                <th>Organisme</th>
+                                <th class="text-nowrap">Ville (départ.)</th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th scope="row" class="px-2">1</th>
+                                <td class="px-2 text-nowrap">01/01/1970</td>
+                                <td class="px-2 w-100">Animateur e-commerce</td>
+                                <td class="px-2 text-nowrap">Avenir 84</td>
+                                <td class="px-2 text-nowrap">Avignon (84)</td>
+                                <td><button class="btn btn-sm btn-outline-secondary"><i class="fas fa-eye"></i></button></td>
+                                <td><button class="btn btn-sm btn-outline-secondary"><i class="fas fa-pen"></i></button></td>
+                                <td><button class="btn btn-sm btn-outline-secondary"><i class="fas fa-trash-alt"></i></button></td>
+                            </tr>
+                            <tr>
+                                <th scope="row" class="px-2">2</th>
+                                <td class="px-2 text-nowrap">01/01/1980</td>
+                                <td class="px-2 w-100">Développeur web</td>
+                                <td class="px-2 text-nowrap">Avenir 84</td>
+                                <td class="px-2 text-nowrap">Avignon (84)</td>
+                                <td><button class="btn btn-sm btn-outline-secondary"><i class="fas fa-eye"></i></button></td>
+                                <td><button class="btn btn-sm btn-outline-secondary"><i class="fas fa-pen"></i></button></td>
+                                <td><button class="btn btn-sm btn-outline-secondary"><i class="fas fa-trash-alt"></i></button></td>
+                            </tr>
+                            <tr>
+                                <th scope="row" class="px-2">3</th>
+                                <td class="px-2 text-nowrap">01/01/2000</td>
+                                <td class="px-2 w-100">Développeur Java EE</td>
+                                <td class="px-2 text-nowrap">Avenir 84</td>
+                                <td class="px-2 w-100">Avignon (84)</td>
+                                <td><button class="btn btn-sm btn-outline-secondary"><i class="fas fa-eye"></i></button></td>
+                                <td><button class="btn btn-sm btn-outline-secondary"><i class="fas fa-pen"></i></button></td>
+                                <td><button class="btn btn-sm btn-outline-secondary"><i class="fas fa-trash-alt"></i></button></td>
+                            </tr>
+                        </tbody>
+                    </table>
             <?php // Administration des loisirs
                 elseif ($action == "loisirs"): ?>
             <?php // Administration du profile (par défaut)
@@ -242,7 +407,7 @@
                                     </div>
 
                                     <div class="form-group">
-                                        <input type="tel" name="telphone" id="telephone" class="form-control" placeholder="Téléphone" value="<?=$user-> getTelephone();?>" >
+                                        <input type="tel" name="telephone" id="telephone" class="form-control" placeholder="Téléphone" value="<?=$user-> getTelephone();?>" >
                                     </div>
 
                                     <div class="form-group">
@@ -251,11 +416,25 @@
 
                                     <div class="form-group">
                                         <div class="row">
-                                            <div class="col-12 col-md-12 col-lg-3 col-xl-3">
+                                            <div class="col-12 col-md-12 col-lg-3 col-xl-3 align-self-center">
                                                 <label for="datenaissance">Date de naissance</label>
                                             </div>
                                             <div class="col-12 col-md-12 col-lg-4 col-xl-4">
-                                                <input type="date" name="datenaissance" id="datenaissance" class="form-control" value="<?=$user-> getDateNaissance()->format('Y-m-d');?>" required>
+                                                <input type="date" name="datenaissance" id="datenaissance" class="form-control px-1" value="<?=$user-> getDateNaissance()->format('Y-m-d');?>" required>
+                                            </div>
+                                            <div class="col-12 col-md-12 col-lg-5 col-xl-5 pl-5 pr-0">
+                                                <div class="row">
+                                                    <div class="col-12">
+                                                        <input type="checkbox" class="form-check-input" id="afficherdate" name="afficherdate" <?php if ($user-> getAfficherDateNaissance()) echo "checked";?>>
+                                                        <label class="form-check-label" for="afficherdate">Afficher ma date de naissance</label>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-12">
+                                                        <input type="checkbox" class="form-check-input" id="afficherage" name="afficherage" <?php if ($user-> getAfficherAge()) echo "checked";?>>
+                                                        <label class="form-check-label" for="afficherage">Afficher mon age</label>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
