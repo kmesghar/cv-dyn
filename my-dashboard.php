@@ -25,139 +25,194 @@
     $alert = new Alert();
     $erreur = false;
 
-    if (!empty($_POST)) {
-        if ($_POST["action"] == "update") {
-            if (isset($_POST["nom"])) {
-                $user-> setNom($_POST["nom"]);
-            }
-            if (isset($_POST["prenom"])) {
-                $user-> setPrenom($_POST["prenom"]);
-            }
-            if (isset($_POST["email"])) {
-                $user-> setEmail($_POST["email"]);
-            }
-            if (isset($_POST["telephone"])) {
-                $user-> setTelephone($_POST["telephone"]);
-            }
-            if (isset($_POST["poste"])) {
-                $user-> setPosteRecherche($_POST["poste"]);
-            }
-            if (isset($_POST["datenaissance"])) {
-                $user-> setDateNaissance($_POST["datenaissance"]);
-            }
-            if (isset($_POST["afficherdate"])) {
-                $user-> setAfficherDateNaissance(true);
-            } else {
-                $user-> setAfficherDateNaissance(false);
-            }
-            if (isset($_POST["afficherage"])) {
-                $user-> setAfficherAge(true);
-            } else {
-                $user-> setAfficherAge(false);
-            }
-            if (isset($_POST["adresse1"])) {
-                $user-> setAdresse1($_POST["adresse1"]);
-            }
-            if (isset($_POST["adresse2"])) {
-                $user-> setAdresse2($_POST["adresse2"]);
-            }
-            if (isset($_POST["codepostal"])) {
-                $user-> setCodePostal($_POST["codepostal"]);
-            }
-            if (isset($_POST["ville"])) {
-                $user-> setVille($_POST["ville"]);
-            }
-        } elseif ($_POST["action"] == "photo") {
-            if ($_FILES["file"]["tmp_name"]) {
-                $target_dir = "ressources/img/";
-                $target_file = $target_dir . basename($_FILES["file"]["name"]);
-                $uploadOk = 1;
-                $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
-    
-                // Check if image file is a actual image or fake image
-                $check = getimagesize($_FILES["file"]["tmp_name"]);
-                if($check !== false) {
-                    //echo "File is an image - " . $check["mime"] . ".";
-                    $erreur = false;
-                } else {
-                    $erreur = true;
-                    $alert-> setType("alert-danger");
-                    $alert-> setTitle("Désolé !");
-                    $alert-> setContent("Le fichier envoyé n'est pas une image valide...");
-                }
-    
-                // Check if file already exists
-                if (file_exists($target_file)) {
-                  $erreur = true;
-                  $alert-> setType("alert-danger");
-                  $alert-> setTitle("Désolé !");
-                  $alert-> setContent("Le fichier de votre photo existe déjà sur le serveur...");
-                }
-                
-                // Check file size
-                if ($_FILES["file"]["size"] > 500000) {
-                  $erreur = true;
-                  $alert-> setType("alert-danger");
-                  $alert-> setTitle("Désolé !");
-                  $alert-> setContent("Le fichier de votre photo est trop volumineux...");
-                }
-                
-                // Allow certain file formats
-                if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
-                && $imageFileType != "gif" && $imageFileType != "webp" ) {
-                  $erreur = true;
-                  $alert-> setType("alert-danger");
-                  $alert-> setTitle("Désolé !");
-                  $alert-> setContent("Le fichier envoyé comme photo n'est pas autorisé...");
-                  $alert-> setFooter("Seuls les fichiers JPG, JPEG, PNG, GIF et WEBP sont autorisés.");
-                }
-                
-                // Check if no error occured
-                if ($erreur) {
-                //   $alert-> setType("alert-danger");
-                //   $alert-> setTitle("Désolé !");
-                //   $alert-> setContent("Une erreur s'est produite lors de l'envoi de votre photo...");
-    
-                // if everything is ok, try to upload file
-                } else {
-                  if (move_uploaded_file($_FILES["file"]["tmp_name"], $target_file)) {
-                    //echo "The file ". htmlspecialchars( basename( $_FILES["file"]["name"])). " has been uploaded.";
-                    
-                    // supprimer le fichier de la photo courante...
-                    unlink(realpath($user-> getPhoto()));
-                    // puis mettre à jour l'utilisateur courant...
-                    $user-> setPhoto($target_file);
-
-                    $alert-> setType("alert-success");
-                    $alert-> setTitle("Felicitations !");
-                    $alert-> setContent("La photo de votre profile a bien été mise à jour...");
-                  } else {
-                    $alert-> setType("alert-danger");
-                    $alert-> setTitle("Désolé !");
-                    $alert-> setContent("Une erreur s'est produite lors de l'envoi de votre photo...");
-                  }
-                }
-            } else {
-                $erreur = true;
-            }
-        }
-
-        if (!$erreur) {
-            if ($user-> save()) {
-                $alert-> setType("alert-success");
-                $alert-> setTitle("Felicitations !");
-                $alert-> setContent("Votre profile a bien été mis à jour...");
-            } else {
-                $alert-> setType("alert-danger");
-                $alert-> setTitle("Désolé !");
-                $alert-> setContent("Votre profile n'a pu être mis à jour...");
-            } 
-        }
-    }
-
     $manage = "profile";
     if (isset($_GET["manage"]))
         $manage = $_GET["manage"];
+
+    if (!empty($_POST)) {
+        if ($manage == "profile") {
+            if ($_POST["action"] == "update") {
+                if (isset($_POST["nom"])) {
+                    $user-> setNom($_POST["nom"]);
+                }
+                if (isset($_POST["prenom"])) {
+                    $user-> setPrenom($_POST["prenom"]);
+                }
+                if (isset($_POST["email"])) {
+                    $user-> setEmail($_POST["email"]);
+                }
+                if (isset($_POST["telephone"])) {
+                    $user-> setTelephone($_POST["telephone"]);
+                }
+                if (isset($_POST["poste"])) {
+                    $user-> setPosteRecherche($_POST["poste"]);
+                }
+                if (isset($_POST["datenaissance"])) {
+                    $user-> setDateNaissance($_POST["datenaissance"]);
+                }
+                if (isset($_POST["afficherdate"])) {
+                    $user-> setAfficherDateNaissance(true);
+                } else {
+                    $user-> setAfficherDateNaissance(false);
+                }
+                if (isset($_POST["afficherage"])) {
+                    $user-> setAfficherAge(true);
+                } else {
+                    $user-> setAfficherAge(false);
+                }
+                if (isset($_POST["adresse1"])) {
+                    $user-> setAdresse1($_POST["adresse1"]);
+                }
+                if (isset($_POST["adresse2"])) {
+                    $user-> setAdresse2($_POST["adresse2"]);
+                }
+                if (isset($_POST["codepostal"])) {
+                    $user-> setCodePostal($_POST["codepostal"]);
+                }
+                if (isset($_POST["ville"])) {
+                    $user-> setVille($_POST["ville"]);
+                }
+            } elseif ($_POST["action"] == "photo") {
+                if ($_FILES["file"]["tmp_name"]) {
+                    $target_dir = "ressources/img/";
+                    $target_file = $target_dir . basename($_FILES["file"]["name"]);
+                    $uploadOk = 1;
+                    $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
+        
+                    // Check if image file is a actual image or fake image
+                    $check = getimagesize($_FILES["file"]["tmp_name"]);
+                    if($check !== false) {
+                        //echo "File is an image - " . $check["mime"] . ".";
+                        $erreur = false;
+                    } else {
+                        $erreur = true;
+                        $alert-> setType("alert-danger");
+                        $alert-> setTitle("Désolé !");
+                        $alert-> setContent("Le fichier envoyé n'est pas une image valide...");
+                    }
+        
+                    // Check if file already exists
+                    if (file_exists($target_file)) {
+                      $erreur = true;
+                      $alert-> setType("alert-danger");
+                      $alert-> setTitle("Désolé !");
+                      $alert-> setContent("Le fichier de votre photo existe déjà sur le serveur...");
+                    }
+                    
+                    // Check file size
+                    if ($_FILES["file"]["size"] > 500000) {
+                      $erreur = true;
+                      $alert-> setType("alert-danger");
+                      $alert-> setTitle("Désolé !");
+                      $alert-> setContent("Le fichier de votre photo est trop volumineux...");
+                    }
+                    
+                    // Allow certain file formats
+                    if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
+                    && $imageFileType != "gif" && $imageFileType != "webp" ) {
+                      $erreur = true;
+                      $alert-> setType("alert-danger");
+                      $alert-> setTitle("Désolé !");
+                      $alert-> setContent("Le fichier envoyé comme photo n'est pas autorisé...");
+                      $alert-> setFooter("Seuls les fichiers JPG, JPEG, PNG, GIF et WEBP sont autorisés.");
+                    }
+                    
+                    // Check if no error occured
+                    if ($erreur) {
+                    //   $alert-> setType("alert-danger");
+                    //   $alert-> setTitle("Désolé !");
+                    //   $alert-> setContent("Une erreur s'est produite lors de l'envoi de votre photo...");
+        
+                    // if everything is ok, try to upload file
+                    } else {
+                      if (move_uploaded_file($_FILES["file"]["tmp_name"], $target_file)) {
+                        //echo "The file ". htmlspecialchars( basename( $_FILES["file"]["name"])). " has been uploaded.";
+                        
+                        // supprimer le fichier de la photo courante...
+                        unlink(realpath($user-> getPhoto()));
+                        // puis mettre à jour l'utilisateur courant...
+                        $user-> setPhoto($target_file);
+    
+                        $alert-> setType("alert-success");
+                        $alert-> setTitle("Felicitations !");
+                        $alert-> setContent("La photo de votre profile a bien été mise à jour...");
+                      } else {
+                        $alert-> setType("alert-danger");
+                        $alert-> setTitle("Désolé !");
+                        $alert-> setContent("Une erreur s'est produite lors de l'envoi de votre photo...");
+                      }
+                    }
+                } else {
+                    $erreur = true;
+                }
+            }
+    
+            if (!$erreur) {
+                if ($user-> save()) {
+                    $alert-> setType("alert-success");
+                    $alert-> setTitle("Felicitations !");
+                    $alert-> setContent("Votre profile a bien été mis à jour...");
+                } else {
+                    $alert-> setType("alert-danger");
+                    $alert-> setTitle("Désolé !");
+                    $alert-> setContent("Votre profile n'a pu être mis à jour...");
+                } 
+            }
+        } else if ($manage == "articles") {
+            if ($_POST["action"] == "create") {
+            } else if ($_POST["action"] == "update") {
+            } else if ($_POST["action"] == "delete") {
+            }
+
+            $article = new Article();
+
+            $image = "";
+            $keywords = str_replace(",", " ", $_POST["keywords"]);
+            $keywords = str_replace(";", " ", $_POST["keywords"]);
+            $keywords = trim(str_replace(".", " ", $_POST["keywords"]));
+
+            $article-> setTitle($_POST["titre"]);
+            $article-> setAbstract($_POST["abstract"]);
+            $article-> setHeader($_POST["header"]);
+            $article-> setContent($_POST["content"]);
+            $article-> setFooter($_POST["footer"]);
+            $article-> setImage($image);
+            $article-> setKeywords(explode(" ", $keywords));
+
+            if ($article-> save()) {
+                $alert-> setType("alert-success");
+                $alert-> setTitle("Felicitations !");
+                $alert-> setContent("Votre nouvel article a bien été ajouté...");
+            } else {
+                $alert-> setType("alert-danger");
+                $alert-> setTitle("Désolé !");
+                $alert-> setContent("Votre nouvel article n'a pu être ajouté...");
+            } 
+        } else if ($manage == "competences") {
+
+        } else if ($mange == "experiences") {
+            
+        } else if ($mange == "formations") {
+            
+        } else if ($mange == "loisirs") {
+            
+        }
+    }
+
+    // Chargement des données à gérer:
+    if ($manage == "profile") {
+        // Rien à faire, utilisateur déjà chargé !
+    } if ($manage == "articles") {
+        $articles = Article::loadAll();
+    } else if ($manage == "competences") {
+        $competences = Competence::loadAll();
+    } else if ($manage == "experiences") {
+        $experiences = Experience::loadAll();
+    } else if ($manage == "formations") {
+        $formations = Formation::loadAll();
+    } else if ($manage == "loisirs") {
+        $loisirs = Loisir::loadAll();
+    }
     
     $page = "my-dashboard";
     include_once "inc/parts/header.php";
@@ -197,7 +252,7 @@
             <?php // Administration des articles (page d'accueil)
                 if ($manage == "articles"): ?>
                     <form action="" method="post">
-                        
+                        <input type="hidden" name="action" id="action" value="create">
                         <div class="form-group">
                             <div class="row">
                                 <div class="col-12 col-lg-4 mb-2">
@@ -234,7 +289,7 @@
 
                             <div class="row mb-2 hidden" id="row-keywords">
                                 <div class="col-12">
-                                    <input type="text" name="keywords" id="keywords" class="form-control" placeholder="Mots-clés (facultatifs)">
+                                    <input type="text" name="keywords" id="keywords" class="form-control" placeholder="Mots-clés, séparés par des espaces (facultatifs)">
                                 </div>
                             </div>
 
@@ -272,28 +327,78 @@
                                 <th scope="row" class="px-2">1</th>
                                 <td class="px-2 w-100">un titre...</td>
                                 <td><button class="btn btn-sm btn-outline-secondary"><i class="fas fa-eye"></i></button></td>
-                                <td><button class="btn btn-sm btn-outline-secondary"><i class="fas fa-chevron-down"></i></i></button></td>
+                                <td>
+                                    <form action="">
+                                        <input type="hidden" name="article">
+                                        <button class="btn btn-sm btn-outline-secondary"><i class="fas fa-chevron-down"></i></i></button>
+                                    </form>
+                                </td>
                                 <td></td>
-                                <td><button class="btn btn-sm btn-outline-secondary"><i class="fas fa-pen"></i></button></td>
-                                <td><button class="btn btn-sm btn-outline-secondary"><i class="fas fa-trash-alt"></i></button></td>
+                                <td>
+                                    <form action="">
+                                        <input type="hidden" name="article">
+                                        <button class="btn btn-sm btn-outline-secondary"><i class="fas fa-pen"></i></button>
+                                    </form>
+                                </td>
+                                <td>
+                                    <form action="">
+                                        <input type="hidden" name="article">
+                                        <button class="btn btn-sm btn-outline-secondary"><i class="fas fa-trash-alt"></i></button>
+                                    </form>
+                                </td>
                             </tr>
                             <tr>
                                 <th scope="row" class="px-2">2</th>
                                 <td class="px-2 w-100">un titre...</td>
                                 <td><button class="btn btn-sm btn-outline-secondary"><i class="fas fa-eye"></i></button></td>
-                                <td><button class="btn btn-sm btn-outline-secondary"><i class="fas fa-chevron-down"></i></i></button></td>
-                                <td><button class="btn btn-sm btn-outline-secondary"><i class="fas fa-chevron-up"></i></i></button></td>
-                                <td><button class="btn btn-sm btn-outline-secondary"><i class="fas fa-pen"></i></button></td>
-                                <td><button class="btn btn-sm btn-outline-secondary"><i class="fas fa-trash-alt"></i></button></td>
+                                <td>
+                                    <form action="">
+                                        <input type="hidden" name="article">
+                                        <button class="btn btn-sm btn-outline-secondary"><i class="fas fa-chevron-down"></i></i></button>
+                                    </form>
+                                </td>
+                                <td>
+                                    <form action="">
+                                        <input type="hidden" name="article">
+                                        <button class="btn btn-sm btn-outline-secondary"><i class="fas fa-chevron-up"></i></i></button>
+                                    </form>
+                                </td>
+                                <td>
+                                    <form action="">
+                                        <input type="hidden" name="article">
+                                        <button class="btn btn-sm btn-outline-secondary"><i class="fas fa-pen"></i></button>
+                                    </form>
+                                </td>
+                                <td>
+                                    <form action="">
+                                        <input type="hidden" name="article">
+                                        <button class="btn btn-sm btn-outline-secondary"><i class="fas fa-trash-alt"></i></button>
+                                    </form>
+                                </td>
                             </tr>
                             <tr>
                                 <th scope="row" class="px-2">3</th>
                                 <td class="px-2 w-100">un titre...</td>
                                 <td><button class="btn btn-sm btn-outline-secondary"><i class="fas fa-eye"></i></button></td>
                                 <td></td>
-                                <td><button class="btn btn-sm btn-outline-secondary"><i class="fas fa-chevron-up"></i></i></button></td>
-                                <td><button class="btn btn-sm btn-outline-secondary"><i class="fas fa-pen"></i></button></td>
-                                <td><button class="btn btn-sm btn-outline-secondary"><i class="fas fa-trash-alt"></i></button></td>
+                                <td>
+                                    <form action="">
+                                        <input type="hidden" name="article">
+                                        <button class="btn btn-sm btn-outline-secondary"><i class="fas fa-chevron-up"></i></i></button>
+                                    </form>
+                                </td>
+                                <td>
+                                    <form action="">
+                                        <input type="hidden" name="article">
+                                        <button class="btn btn-sm btn-outline-secondary"><i class="fas fa-pen"></i></button>
+                                    </form>
+                                </td>
+                                <td>
+                                    <form action="">
+                                        <input type="hidden" name="article">
+                                        <button class="btn btn-sm btn-outline-secondary"><i class="fas fa-trash-alt"></i></button>
+                                    </form>
+                                </td>
                             </tr>
                         </tbody>
                     </table>
@@ -399,6 +504,15 @@
                             </div>
 
                             <div class="row mb-2">
+                                <div class="col-8">
+                                    <input type="text" name="employeur" id="employeur" class="form-control" placeholder="Employeur">
+                                </div>
+                                <div class="col-4">
+                                    <input type="text" name="ville" id="ville" class="form-control" placeholder="Ville (départ.)">
+                                </div>
+                            </div>
+
+                            <div class="row mb-2">
                                 <div class="col-12">
                                     <textarea name="description" id="description" class="form-control" placeholder="Description (facultative)"></textarea>
                                 </div>
@@ -465,17 +579,26 @@
                         <div class="form-group">
                             <div class="row">
                                 <div class="col-2 col-lg-1 align-self-center mb-2">
-                                    <label for="datenaissance">Date :</label>
+                                    <label for="dateformation">Date :</label>
                                 </div>
-                                <div class="col-10 col-lg-2 mb-2">
-                                    <input type="date" name="dateformation" id="dateformation" class="form-control px-1" required>
+                                <div class="col-4 col-lg-3 px-0 mb-2">
+                                    <input type="month" name="dateformation" id="dateformation" class="form-control px-1" required>
                                 </div>
-                                <div class="col-9 col-lg-8 mb-2">
-                                    <input type="text" name="formation" id="formation" class="form-control" placeholder="Nouvelle formation">
+                                <div class="col-10 col-lg-7 mb-2">
+                                    <input type="text" name="formation" id="formation" class="form-control" placeholder="Diplôme ou titre">
                                 </div>
-                                <div class="col-1 align-self-center mb-2">
+                                <div class="col-2 col-lg-1 align-self-center mb-2">
                                     <input type="checkbox" class="form-check-input" id="formationobtenue" name="formationobtenue">
                                     <label class="form-check-label" for="formationobtenue">obtenue</label>
+                                </div>
+                            </div>
+
+                            <div class="row mb-2">
+                                <div class="col-8">
+                                    <input type="text" name="organisme" id="organisme" class="form-control" placeholder="Organisme">
+                                </div>
+                                <div class="col-4">
+                                    <input type="text" name="ville" id="ville" class="form-control" placeholder="Ville (départ.)">
                                 </div>
                             </div>
 

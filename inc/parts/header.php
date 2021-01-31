@@ -37,7 +37,7 @@
                                 <a href="./my-dashboard.php" class="nav-link <?php if ($page == "my-dashboard") echo "active"; ?>">Mon tableau de bord</a>
                             </li>
                             <li class="nav-item">
-                                <a href="./my-inbox.php" class="nav-link <?php if ($page == "my-inbox") echo "active"; ?>">Ma messagerie</a>
+                                <a href="./my-inbox.php" class="nav-link <?php if ($page == "my-inbox") echo "active"; ?>">Ma messagerie <span class="badge badge-info" id="unread">1</span></a>
                             </li>
                             <li class="nav-item">
                                 <a href="./logout.php" class="nav-link">Me déconnecter</a>
