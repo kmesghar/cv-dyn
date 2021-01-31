@@ -13,3 +13,11 @@
 main {
     min-height: 300px;
 }
+
+.shown {
+    display: bloc;
+}
+
+.hidden {
+    display: none;
+}

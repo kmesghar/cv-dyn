@@ -3,12 +3,14 @@
         // Les attributs de la classe
         // repris à partir du MCD pour construire le Diagramme de Classe
         private int $id;
+        private string $icone;
         private string $libelle;
         private string $description;
 
         // Le constructeur qui permet d'initialiser les attributs à des valeurs non nulles
         public function __construct() {
             $this-> id = 0;
+            $this-> icone = "";
             $this-> libelle = "";
             $this-> description = "";
         }
@@ -21,6 +23,14 @@
         }
         public function setId($id) {
             $this-> id = $id;
+        }
+
+        public function getIcone() {
+            return $this-> icone;
+        }
+
+        public function setIcone($icone) {
+            $this-> icone = $icone;
         }
 
         public function getLibelle() {
@@ -47,13 +57,22 @@
         }
 
         public function __toString() {
-            return "<h6>" . $this-> libelle . "</h6><p>" .$this-> description . "</p>";
+            $out = "<div class='row'>\n";
+            $out .= "    <div class='col-1'>";
+            $out .= $this-> icone;
+            $out .= "   </div>\n";
+            $out .= "    <div class='col-1'>\n";
+            $out .= "       <h6>" . $this-> libelle . "</h6><p>" .$this-> description . "</p>\n";
+            $out .= "   </div>\n";
+            $out .= "</div>\n";
+            return $out;
         }
 
         // Les méthodes identifiées dans le diagramme de classe pour abstraction de la couche d'accès aux données
         // Ces méthodes seront reprises dans la couche DAO
         private function clone(Loisir $loisir): void {
             $this-> id = $loisir-> id;
+            $this-> icone = $loisir-> icone;
             $this-> libelle = $loisir-> libelle;
             $this-> description = $loisir-> description;
         }

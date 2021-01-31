@@ -15,9 +15,6 @@
                 $query = $database-> prepare($sql);
                 $query-> execute();
 
-                // Cette ligne ne 'retourne' pas des objets Competence mais STDClass
-                // $results = $query-> fetchAll(PDO::FETCH_OBJ);
-                // Problème résolu avec cette écriture qui précise la classe attendue
                 $results = $query-> fetchAll(PDO::FETCH_CLASS, "Loisir");
 
                 return results;

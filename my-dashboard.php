@@ -155,9 +155,9 @@
         }
     }
 
-    $action = "profile";
-    if (isset($_GET["action"]))
-        $action = $_GET["action"];
+    $manage = "profile";
+    if (isset($_GET["manage"]))
+        $manage = $_GET["manage"];
     
     $page = "my-dashboard";
     include_once "inc/parts/header.php";
@@ -169,22 +169,22 @@
 
         <ul class="nav nav-tabs">
                 <li class="nav-item">
-                    <a href="?action=profile" class="nav-link <?php if ($action == "profile") echo "active"; ?>"><i class="fas fa-user"></i> Mon profile</a>
+                    <a href="?manage=profile" class="nav-link <?php if ($manage == "profile") echo "active"; ?>"><i class="fas fa-user"></i> Mon profile</a>
                 </li>
                 <li class="nav-item">
-                    <a href="?action=articles" class="nav-link <?php if ($action == "articles") echo "active"; ?>"><i class="far fa-newspaper"></i> Mes articles</a>
+                    <a href="?manage=articles" class="nav-link <?php if ($manage == "articles") echo "active"; ?>"><i class="far fa-newspaper"></i> Mes articles</a>
                 </li>
                 <li class="nav-item">
-                    <a href="?action=competences" class="nav-link <?php if ($action == "competences") echo "active"; ?>"><i class="fas fa-puzzle-piece"></i> Mes compétences</a>
+                    <a href="?manage=competences" class="nav-link <?php if ($manage == "competences") echo "active"; ?>"><i class="fas fa-puzzle-piece"></i> Mes compétences</a>
                 </li>
                 <li class="nav-item">
-                    <a href="?action=experiences" class="nav-link <?php if ($action == "experiences") echo "active"; ?>"><i class="fas fa-building"></i> Mon expérience</a>
+                    <a href="?manage=experiences" class="nav-link <?php if ($manage == "experiences") echo "active"; ?>"><i class="fas fa-building"></i> Mon expérience</a>
                 </li>
                 <li class="nav-item">
-                    <a href="?action=formations" class="nav-link <?php if ($action == "formations") echo "active"; ?>"><i class="fas fa-user-graduate"></i> Ma formation</a>
+                    <a href="?manage=formations" class="nav-link <?php if ($manage == "formations") echo "active"; ?>"><i class="fas fa-user-graduate"></i> Ma formation</a>
                 </li>
                 <li class="nav-item">
-                    <a href="?action=loisirs" class="nav-link <?php if ($action == "loisirs") echo "active"; ?>"><i class="fas fa-gamepad"></i> Mes loisirs</a>
+                    <a href="?manage=loisirs" class="nav-link <?php if ($manage == "loisirs") echo "active"; ?>"><i class="fas fa-gamepad"></i> Mes loisirs</a>
                 </li>
             </ul>
         </nav>
@@ -195,7 +195,66 @@
             <?php endif; ?>
 
             <?php // Administration des articles (page d'accueil)
-                if ($action == "articles"): ?>
+                if ($manage == "articles"): ?>
+                    <form action="" method="post">
+                        
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-12 col-lg-4 mb-2">
+                                    <input type="file" class="form-control w-100" name="file" id="file">
+                                </div>
+                                <div class="col-12 col-lg-8 mb-2">
+                                    <input type="text" name="titre" id="titre" class="form-control" placeholder="Titre">
+                                </div>
+                            </div>
+
+                            <div class="row mb-2 hidden" id="row-abstract">
+                                <div class="col-12">
+                                    <textarea name="abstract" id="abstract" class="form-control" placeholder="Extrait (facultatif)"></textarea>
+                                </div>
+                            </div>
+
+                            <div class="row mb-2 hidden" id="row-header">
+                                <div class="col-12">
+                                    <textarea name="header" id="header" class="form-control" placeholder="En-tête (facultatif)"></textarea>
+                                </div>
+                            </div>
+
+                            <div class="row mb-2">
+                                <div class="col-12">
+                                    <textarea name="content" id="content" class="form-control" placeholder="Contenu"></textarea>
+                                </div>
+                            </div>
+
+                            <div class="row mb-2 hidden" id="row-footer">
+                                <div class="col-12">
+                                    <textarea name="footer" id="footer" class="form-control" placeholder="Pied de page (facultatif)"></textarea>
+                                </div>
+                            </div>
+
+                            <div class="row mb-2 hidden" id="row-keywords">
+                                <div class="col-12">
+                                    <input type="text" name="keywords" id="keywords" class="form-control" placeholder="Mots-clés (facultatifs)">
+                                </div>
+                            </div>
+
+                            <div class="row justify-content-end" id="btn-overlay">
+                                <div class="col-12 col-lg-8 align-self-end mb-2">
+                                    <a class="btn btn-sm btn-secondary" id="btn-abstract">Ajouter un extrait</a>
+                                    <a class="btn btn-sm btn-secondary" id="btn-header">Ajouter un en-tête</a>
+                                    <a class="btn btn-sm btn-secondary" id="btn-footer">Ajouter un pied de page</a>
+                                    <a class="btn btn-sm btn-secondary" id="btn-keywords">Ajouter des mots-clés</a>
+                                </div>
+                                <div class="col-12 col-lg-4 text-right mb-2">
+                                    <button class="btn btn-secondary w-100">Ajouter un nouvel article</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+
+                    <hr>
+
+                    <h4>Mes articles</h4>
                     <table class="table table-striped">
                         <thead>
                             <tr>
@@ -239,11 +298,38 @@
                         </tbody>
                     </table>
             <?php // Administration des compétences
-                elseif ($action == "competences"): ?>
+                elseif ($manage == "competences"): ?>
+                    <form action="" method="post">
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-12 col-lg-4 mb-2">
+                                <input type="text" name="icon" id="icon" class="form-control" placeholder="Icone (Font Awesome par exemple)">
+                                </div>
+                                <div class="col-12 col-lg-8 mb-2">
+                                    <input type="text" name="loisir" id="loisir" class="form-control" placeholder="Nouvelle compétence">
+                                </div>
+                            </div>
+
+                            <div class="row mb-2">
+                                <div class="col-12">
+                                    <textarea name="description" id="description" class="form-control" placeholder="Description (facultative)"></textarea>
+                                </div>
+                            </div>
+
+                            <div class="row justify-content-end mb-2">
+                                <div class="col-12 col-lg-4 text-right">
+                                    <button class="btn btn-secondary w-100">Ajouter une nouvelle compétence</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+
+                    <h4>Mes compétences</h4>
                     <table class="table table-striped">
                         <thead>
                             <tr>
                                 <th>#</th>
+                                <th>FA</th>
                                 <th>Compétence</th>
                                 <th>Description</th>
                                 <th></th>
@@ -254,7 +340,8 @@
                         <tbody>
                             <tr>
                                 <th scope="row" class="px-2">1</th>
-                                <td class="px-2 text-nowrap">Une compétence...</td>
+                                <td class="px-2 text-nowrap"><i class="fab fa-2x fa-html5"></i></td>
+                                <td class="px-2 text-nowrap">HTML 5</td>
                                 <td class="px-2 w-100">Sa description...</td>
                                 <td><button class="btn btn-sm btn-outline-secondary"><i class="fas fa-eye"></i></button></td>
                                 <td><button class="btn btn-sm btn-outline-secondary"><i class="fas fa-pen"></i></button></td>
@@ -262,7 +349,8 @@
                             </tr>
                             <tr>
                                 <th scope="row" class="px-2">2</th>
-                                <td class="px-2 text-nowrap">Une compétence...</td>
+                                <td class="px-2 text-nowrap"><i class="fab fa-2x fa-css3-alt"></i></td>
+                                <td class="px-2 text-nowrap">CSS3</td>
                                 <td class="px-2 w-100">Sa description...</td>
                                 <td><button class="btn btn-sm btn-outline-secondary"><i class="fas fa-eye"></i></button></td>
                                 <td><button class="btn btn-sm btn-outline-secondary"><i class="fas fa-pen"></i></button></td>
@@ -270,7 +358,17 @@
                             </tr>
                             <tr>
                                 <th scope="row" class="px-2">3</th>
-                                <td class="px-2 text-nowrap">Une compétence...</td>
+                                <td class="px-2 text-nowrap"><i class="fab fa-2x fa-js-square"></i></td>
+                                <td class="px-2 text-nowrap">Javascript ES6</td>
+                                <td class="px-2 w-100">Sa description...</td>
+                                <td><button class="btn btn-sm btn-outline-secondary"><i class="fas fa-eye"></i></button></td>
+                                <td><button class="btn btn-sm btn-outline-secondary"><i class="fas fa-pen"></i></button></td>
+                                <td><button class="btn btn-sm btn-outline-secondary"><i class="fas fa-trash-alt"></i></button></td>
+                            </tr>
+                            <tr>
+                                <th scope="row" class="px-2">4</th>
+                                <td class="px-2 text-nowrap"><i class="fab fa-2x fa-php"></i></td>
+                                <td class="px-2 text-nowrap">PHP 7.4</td>
                                 <td class="px-2 w-100">Sa description...</td>
                                 <td><button class="btn btn-sm btn-outline-secondary"><i class="fas fa-eye"></i></button></td>
                                 <td><button class="btn btn-sm btn-outline-secondary"><i class="fas fa-pen"></i></button></td>
@@ -279,7 +377,42 @@
                         </tbody>
                     </table>
             <?php // Administration des expériences
-                elseif ($action == "experiences"): ?>
+                elseif ($manage == "experiences"): ?>
+                    <form action="" method="post">
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-6 col-lg-3 align-self-center mb-2 form-inline">
+                                    <label for="datenaissance">Du :</label>
+                                    <input type="date" name="dateformation" id="dateformation" class="form-control px-1 ml-2" required>
+                                </div>
+                                <div class="col-6 col-lg-3 mb-2 form-inline">
+                                    <label for="datenaissance">au :</label>
+                                    <input type="date" name="dateformation" id="dateformation" class="form-control px-1 ml-2">
+                                </div>
+                                <div class="col-10 col-lg-5 mb-2">
+                                    <input type="text" name="formation" id="formation" class="form-control" placeholder="Poste occupé">
+                                </div>
+                                <div class="col-1 align-self-center mb-2 py-0 my-0">
+                                    <input type="checkbox" class="form-check-input" id="experienceenposte" name="experienceenposte">
+                                    <label class="form-check-label" for="experienceenposte">en poste</label>
+                                </div>
+                            </div>
+
+                            <div class="row mb-2">
+                                <div class="col-12">
+                                    <textarea name="description" id="description" class="form-control" placeholder="Description (facultative)"></textarea>
+                                </div>
+                            </div>
+
+                            <div class="row justify-content-end mb-2">
+                                <div class="col-12 col-lg-4 text-right">
+                                    <button class="btn btn-secondary w-100">Ajouter une nouvelle expérience</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+
+                    <h4>Mes expériences</h4>
                     <table class="table table-striped">
                         <thead>
                             <tr>
@@ -327,7 +460,40 @@
                         </tbody>
                     </table>
             <?php // Administration des formations
-                elseif ($action == "formations"): ?>
+                elseif ($manage == "formations"): ?>
+                    <form action="" method="post">
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-2 col-lg-1 align-self-center mb-2">
+                                    <label for="datenaissance">Date :</label>
+                                </div>
+                                <div class="col-10 col-lg-2 mb-2">
+                                    <input type="date" name="dateformation" id="dateformation" class="form-control px-1" required>
+                                </div>
+                                <div class="col-9 col-lg-8 mb-2">
+                                    <input type="text" name="formation" id="formation" class="form-control" placeholder="Nouvelle formation">
+                                </div>
+                                <div class="col-1 align-self-center mb-2">
+                                    <input type="checkbox" class="form-check-input" id="formationobtenue" name="formationobtenue">
+                                    <label class="form-check-label" for="formationobtenue">obtenue</label>
+                                </div>
+                            </div>
+
+                            <div class="row mb-2">
+                                <div class="col-12">
+                                    <textarea name="description" id="description" class="form-control" placeholder="Description (facultative)"></textarea>
+                                </div>
+                            </div>
+
+                            <div class="row justify-content-end mb-2">
+                                <div class="col-12 col-lg-4 text-right">
+                                    <button class="btn btn-secondary w-100">Ajouter une nouvelle formation</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+
+                    <h4>Mes formations</h4>
                     <table class="table table-striped">
                         <thead>
                             <tr>
@@ -375,7 +541,33 @@
                         </tbody>
                     </table>
             <?php // Administration des loisirs
-                elseif ($action == "loisirs"): ?>
+                elseif ($manage == "loisirs"): ?>
+                    <form action="" method="post">
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-12 col-lg-4 mb-2">
+                                <input type="text" name="icon" id="icon" class="form-control" placeholder="Icone (Font Awesome par exemple)">
+                                </div>
+                                <div class="col-12 col-lg-8 mb-2">
+                                    <input type="text" name="loisir" id="loisir" class="form-control" placeholder="Nouveau loisir">
+                                </div>
+                            </div>
+
+                            <div class="row mb-2">
+                                <div class="col-12">
+                                    <textarea name="description" id="description" class="form-control" placeholder="Description (facultative)"></textarea>
+                                </div>
+                            </div>
+
+                            <div class="row justify-content-end mb-2">
+                                <div class="col-12 col-lg-4 text-right">
+                                    <button class="btn btn-secondary w-100">Ajouter un nouveau loisir</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+
+                    <h4>Mes loisirs</h4>
                     <table class="table table-striped">
                         <thead>
                             <tr>
