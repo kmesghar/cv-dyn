@@ -14,7 +14,7 @@
         }
 
         public static function save(Article $article): Article {
-            return false;
+            return new Article();
         }
 
         public static function delete(int $id): bool {

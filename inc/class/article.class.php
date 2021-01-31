@@ -100,6 +100,10 @@
         /* FIN SETTERS */
         
         /* GETTERS */
+        public function getId(): int {
+            return $this-> id;
+        }
+
         public function getTitle(): string {
             return $this-> title;
         }
@@ -143,11 +147,17 @@
         }
 
         public function save(): bool {
-            return false;
+            include_once __DIR__ . "/../dal/article.dao.php";
+
+            if (ArticleDAO::save($this)-> getId() > 0) {
+                return true;
+            } else return false;
         }
 
         public function delete(): bool {
-            return true;
+            include_once __DIR__ . "/../dal/article.dao.php";
+
+            return ArticleDAO::delete($this-> id);
         }
 
         public function up(): bool {
