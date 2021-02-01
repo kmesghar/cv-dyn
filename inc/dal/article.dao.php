@@ -46,12 +46,12 @@
                 $database = new PDO($connexionString, Database::DBUSER, Database::DBPASS);
                 $database-> setattribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
+                $order = null;
                 if ($article-> getId() == 0) {
-
+                    $query = $database-> prepare("SELECT MAX(layout) as layout FROM articles;");
+                    $query-> execute();
+                    $order = $query-> fetchAll()[0]["layout"];
                 }
-                $query = $database-> prepare("SELECT MAX(layout) as layout FROM articles;");
-                $query-> execute();
-                $order = $query-> fetchAll()[0]["layout"];
 
                 $query = $database-> prepare($sql);
                 $data = [

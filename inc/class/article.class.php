@@ -2,23 +2,31 @@
     class Article {
         // Les articles sont mis en une dans la page d'accueil, et accessibles indiviuellement dans une page dédiée (article.php)
         private int $id;
-        private int $layout;   // Ordre d'affichage
+        private int $layoutorder;   // Ordre d'affichage
         private string  $title;     // Titre (obligatoire)
         private ?string $abstract;  // Résumé, si absent, affichage des x premiers caractères du contenu
         private ?string $header;    // En-tête si présent
         private string  $content;   // Contenu (obligatoire)
         private ?string $footer;    // Pied de page si présent
         private ?string $image;     // Image si présente
-        private ?array $keywords;   // Tableau de mot-clés (strings)
+        private ?array $keywordsArray;   // Tableau de mot-clés (strings)
 
         // setter magic
         public function __set($name, $value) {
-            $this-> $name = $value;
+            if ($name == "keywords") {
+                $this-> keywordsArray = explode("|", $value);
+            } else {
+                $this-> $name = $value;
+            }
         }
 
         // setter magic
         public function __get($name) {
-            return $this-> $name;
+            if ($name == "keywords") {
+                return $this-> keywordsArray;
+            } else {
+                return $this-> $name;
+            }
         }
 
         // public function __construct() {
@@ -42,7 +50,7 @@
             $this-> content = $content;
             $this-> footer = $footer;
             $this-> image = $image;
-            $this-> keywords = explode("|", $keywords);
+            $this-> keywordsArray = explode("|", $keywords);
         }
 
         public function __toString(): void {
@@ -107,8 +115,12 @@
             $this-> image = $image;
         }
 
-        public function setKeywords(array $keywords): void {
-            $this-> keywords = $keywords;
+        public function setKeywords(string $keywords): void {
+            $this-> keywordsArray = explode("|", $keywords);
+        }
+
+        public function setKeywordsArray(array $keywords): void {
+            $this-> keywordsArray = $keywords;
         }
         /* FIN SETTERS */
         
@@ -146,7 +158,7 @@
         }
 
         public function getKeywords(): array {
-            return $this-> keywords;
+            return $this-> keywordsArray;
         }
 
         public function getKeywordsString(): string {

@@ -177,7 +177,7 @@
             $article-> setContent($_POST["content"]);
             $article-> setFooter($_POST["footer"]);
             $article-> setImage($image);
-            $article-> setKeywords(explode(" ", $keywords));
+            $article-> setKeywordsArray(explode(" ", $keywords));
 
             if ($article-> save()) {
                 $alert-> setType("alert-success");
@@ -203,7 +203,7 @@
     if ($manage == "profile") {
         // Rien à faire, utilisateur déjà chargé !
     } if ($manage == "articles") {
-        //$articles = Article::loadAll();
+        $articles = Article::loadAll();
     } else if ($manage == "competences") {
         $competences = Competence::loadAll();
     } else if ($manage == "experiences") {
