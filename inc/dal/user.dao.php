@@ -63,9 +63,12 @@
                     'adresse2' => $user-> getAdresse2(),
                     'codepostal' => $user-> getCodePostal(),
                     'ville' => $user-> getVille(),
-                    'photo' => $user-> getPhoto(),
-                    'id' => $user-> getId()
+                    'photo' => $user-> getPhoto()
                 ];
+
+                // Si on est en présence d'un update...
+                if ($user-> getId() > 0)
+                    $data["id"] = $user-> getId();
 
                 $query-> execute($data);
 

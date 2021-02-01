@@ -2,34 +2,47 @@
     class Article {
         // Les articles sont mis en une dans la page d'accueil, et accessibles indiviuellement dans une page dédiée (article.php)
         private int $id;
-        private int $order;         // Ordre d'affichage
+        private int $layout;   // Ordre d'affichage
         private string  $title;     // Titre (obligatoire)
         private ?string $abstract;  // Résumé, si absent, affichage des x premiers caractères du contenu
         private ?string $header;    // En-tête si présent
         private string  $content;   // Contenu (obligatoire)
         private ?string $footer;    // Pied de page si présent
         private ?string $image;     // Image si présente
-        private ?array $keywords;  // Tableau de mot-clés (strings)
+        private ?array $keywords;   // Tableau de mot-clés (strings)
 
         // setter magic
         public function __set($name, $value) {
-            $this->$name = $value;
-        }
-        // setter magic
-        public function __get($name) {
-            return $this->$name;
+            $this-> $name = $value;
         }
 
-        public function __construct($id = 0, $order = 0, $abstract = "") {
-            $this-> id = 0;
-            $this-> order = 0;
-            $this-> title = "";
-            $this-> abstract = "";
-            $this-> header = "";
-            $this-> content = "";
-            $this-> footer = "";
-            $this-> image = "";
-            $this-> keywords = array ();
+        // setter magic
+        public function __get($name) {
+            return $this-> $name;
+        }
+
+        // public function __construct() {
+        //     $this-> id  = 0;
+        //     $this-> layout = 0;
+        //     $this-> title = "";
+        //     $this-> abstract = "";
+        //     $this-> header = "";
+        //     $this-> content = "";
+        //     $this-> footer = "";
+        //     $this-> image = "";
+        //     $this-> keywords = array ();
+        // }
+
+        public function __construct($id = 0, $layout = 0, $title = "", $abstract = "", $header = "", $content = "", $footer = "", $image = "", $keywords = "") {
+            $this-> id = $id;
+            $this-> layout = $layout;
+            $this-> title = $title;
+            $this-> abstract = $abstract;
+            $this-> header = $header;
+            $this-> content = $content;
+            $this-> footer = $footer;
+            $this-> image = $image;
+            $this-> keywords = explode("|", $keywords);
         }
 
         public function __toString(): void {
@@ -66,8 +79,8 @@
             $this-> id = $id;
         }
 
-        public function setOrder(int $order): void {
-            $this-> order = $order;
+        public function setLayout(int $order): void {
+            $this-> layout = $order;
         }
 
         public function setTitle(string $title): void {
@@ -104,8 +117,47 @@
             return $this-> id;
         }
 
+        public function getLayout(): int {
+            return $this-> layout;
+        }
+
         public function getTitle(): string {
             return $this-> title;
+        }
+
+        public function getAbstract(): string {
+            return $this-> abstract;
+        }
+
+        public function getHeader(): string {
+            return $this-> header;
+        }
+
+        public function getContent(): string {
+            return $this-> content;
+        }
+
+        public function getFooter(): string {
+            return $this-> footer;
+        }
+
+        public function getImage(): string {
+            return $this-> image;
+        }
+
+        public function getKeywords(): array {
+            return $this-> keywords;
+        }
+
+        public function getKeywordsString(): string {
+            $out = "";
+            foreach ($this-> keywords as $keyword) {
+                $out .= "$keyword|";
+            }
+
+            substr_replace($out ,"",-1);
+
+            return $out;
         }
         /* FIN GETTERS */
 

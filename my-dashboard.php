@@ -203,7 +203,7 @@
     if ($manage == "profile") {
         // Rien à faire, utilisateur déjà chargé !
     } if ($manage == "articles") {
-        $articles = Article::loadAll();
+        //$articles = Article::loadAll();
     } else if ($manage == "competences") {
         $competences = Competence::loadAll();
     } else if ($manage == "experiences") {
@@ -259,7 +259,7 @@
                                     <input type="file" class="form-control w-100" name="file" id="file">
                                 </div>
                                 <div class="col-12 col-lg-8 mb-2">
-                                    <input type="text" name="titre" id="titre" class="form-control" placeholder="Titre">
+                                    <input type="text" name="titre" id="titre" class="form-control" placeholder="Titre" required>
                                 </div>
                             </div>
 
@@ -277,7 +277,7 @@
 
                             <div class="row mb-2">
                                 <div class="col-12">
-                                    <textarea name="content" id="content" class="form-control" placeholder="Contenu"></textarea>
+                                    <textarea name="content" id="content" class="form-control" placeholder="Contenu" required></textarea>
                                 </div>
                             </div>
 
