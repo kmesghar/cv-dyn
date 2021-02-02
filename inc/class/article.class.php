@@ -2,14 +2,15 @@
     class Article {
         // Les articles sont mis en une dans la page d'accueil, et accessibles indiviuellement dans une page dédiée (article.php)
         private int $id;
-        private int $layoutorder;   // Ordre d'affichage
-        private string  $title;     // Titre (obligatoire)
-        private ?string $abstract;  // Résumé, si absent, affichage des x premiers caractères du contenu
-        private ?string $header;    // En-tête si présent
-        private string  $content;   // Contenu (obligatoire)
-        private ?string $footer;    // Pied de page si présent
-        private ?string $image;     // Image si présente
+        private int $layoutorder;        // Ordre d'affichage
+        private string  $title;          // Titre (obligatoire)
+        private ?string $abstract;       // Résumé, si absent, affichage des x premiers caractères du contenu
+        private ?string $header;         // En-tête si présent
+        private string  $content;        // Contenu (obligatoire)
+        private ?string $footer;         // Pied de page si présent
+        private ?string $image;          // Image si présente
         private ?array $keywordsArray;   // Tableau de mot-clés (strings)
+        private ?bool $published;        // Tableau de mot-clés (strings)
 
         // setter magic
         public function __set($name, $value) {
@@ -41,7 +42,7 @@
         //     $this-> keywords = array ();
         // }
 
-        public function __construct($id = 0, $layout = 0, $title = "", $abstract = "", $header = "", $content = "", $footer = "", $image = "", $keywords = "") {
+        public function __construct($id = 0, $layout = 0, $title = "", $abstract = "", $header = "", $content = "", $footer = "", $image = "", $keywords = "", $published = false) {
             $this-> id = $id;
             $this-> layout = $layout;
             $this-> title = $title;
@@ -51,6 +52,7 @@
             $this-> footer = $footer;
             $this-> image = $image;
             $this-> keywordsArray = explode("|", $keywords);
+            $this-> published = $published;
         }
 
         public function __toString(): void {
@@ -122,6 +124,10 @@
         public function setKeywordsArray(array $keywords): void {
             $this-> keywordsArray = $keywords;
         }
+
+        public function setStatus(bool $published): void {
+            $this-> published = $published;
+        }
         /* FIN SETTERS */
         
         /* GETTERS */
@@ -171,6 +177,10 @@
 
             return $out;
         }
+
+        public function getStatus(): bool {
+            return $this-> published;
+        }
         /* FIN GETTERS */
 
         public function preview(): void {
@@ -196,6 +206,12 @@
             include_once __DIR__ . "/../dal/article.dao.php";
 
             return ArticleDAO::loadAll();
+        }
+
+        public static function loadAllPublished(): array {
+            include_once __DIR__ . "/../dal/article.dao.php";
+
+            return ArticleDAO::loadAllPublished();
         }
 
         public static function findByKeywords(array $keywords): array {
@@ -225,10 +241,22 @@
         }
 
         public function up(): bool {
-            return false;
+            include_once __DIR__ . "/../dal/article.dao.php";
+
+            return ArticleDAO::up($this-> id);
         }
 
         public function down(): bool {
-            return false;
+            include_once __DIR__ . "/../dal/article.dao.php";
+
+            return ArticleDAO::down($this-> id);
+        }
+
+        public function publish(): bool {
+            include_once __DIR__ . "/../dal/article.dao.php";
+
+            $this-> published = ArticleDAO::publish($this-> id);
+            
+            return $this-> published;
         }
     }

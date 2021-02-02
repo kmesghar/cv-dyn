@@ -19,7 +19,29 @@
                 return $results;
             } catch (Exception $exc) {
                 var_dump($exc);
-                return new User();
+                return array ();
+            }
+        }
+        
+        public static function loadAllPublished(): array {
+            include_once __DIR__ . "/database.php";
+
+            $sql = "SELECT * FROM articles WHERE published = true ORDER BY layout ASC;";
+
+            try {
+                $connexionString = "mysql: host=" . Database::HOST . "; port=" . Database::PORT . "; dbname=" . Database::DBNAME . "; charset=utf8";
+                $database = new PDO($connexionString, Database::DBUSER, Database::DBPASS);
+                $database-> setattribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+                $query = $database-> prepare($sql);
+
+                $query-> execute();
+                $results = $query-> fetchAll(PDO::FETCH_CLASS|PDO::FETCH_PROPS_LATE, "Article");
+
+                return $results;
+            } catch (Exception $exc) {
+                var_dump($exc);
+                return array ();
             }
         }
 
@@ -100,6 +122,10 @@
         }
 
         public function down(Article $article): bool {
+            return false;
+        }
+
+        public static function publish(Article $article): bool {
             return false;
         }
     }

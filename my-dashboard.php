@@ -159,35 +159,110 @@
                 } 
             }
         } else if ($manage == "articles") {
-            if ($_POST["action"] == "create") {
-            } else if ($_POST["action"] == "update") {
-            } else if ($_POST["action"] == "delete") {
-            }
-
             $article = new Article();
 
-            $image = "";
-            $keywords = str_replace(",", " ", $_POST["keywords"]);
-            $keywords = str_replace(";", " ", $_POST["keywords"]);
-            $keywords = trim(str_replace(".", " ", $_POST["keywords"]));
+            if ($_POST["action"] == "delete") {
 
-            $article-> setTitle($_POST["titre"]);
-            $article-> setAbstract($_POST["abstract"]);
-            $article-> setHeader($_POST["header"]);
-            $article-> setContent($_POST["content"]);
-            $article-> setFooter($_POST["footer"]);
-            $article-> setImage($image);
-            $article-> setKeywordsArray(explode(" ", $keywords));
-
-            if ($article-> save()) {
-                $alert-> setType("alert-success");
-                $alert-> setTitle("Felicitations !");
-                $alert-> setContent("Votre nouvel article a bien été ajouté...");
             } else {
-                $alert-> setType("alert-danger");
-                $alert-> setTitle("Désolé !");
-                $alert-> setContent("Votre nouvel article n'a pu être ajouté...");
-            } 
+                $article = new Article();
+
+                if ($_POST["action"] == "update") {
+                    $article-> get($_POST["article"]);
+                }
+
+                $erreur = false;
+    
+                if ($_FILES["image"]["tmp_name"]) {
+                    $target_dir = "ressources/img/articles/" . $_POST["titre"] . "/";
+                    if (!file_exists($target_dir)) {
+                        mkdir($target_dir, 0777, true);
+                    }
+                    $target_file = $target_dir . basename($_FILES["image"]["name"]);
+                    $uploadOk = 1;
+                    $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
+        
+                    // Check if image file is a actual image or fake image
+                    $check = getimagesize($_FILES["image"]["tmp_name"]);
+                    if($check !== false) {
+                        //echo "File is an image - " . $check["mime"] . ".";
+                        $erreur = false;
+                    } else {
+                        $erreur = true;
+                        $alert-> setType("alert-danger");
+                        $alert-> setTitle("Désolé !");
+                        $alert-> setContent("Le fichier envoyé n'est pas une image valide...");
+                    }
+        
+                    // Check if file already exists
+                    if (file_exists($target_file)) {
+                        $erreur = true;
+                        $alert-> setType("alert-danger");
+                        $alert-> setTitle("Désolé !");
+                        $alert-> setContent("Le fichier de votre photo existe déjà sur le serveur...");
+                    }
+                    
+                    // Check file size
+                    if ($_FILES["image"]["size"] > 500000) {
+                        $erreur = true;
+                        $alert-> setType("alert-danger");
+                        $alert-> setTitle("Désolé !");
+                        $alert-> setContent("Le fichier de votre photo est trop volumineux...");
+                    }
+                    
+                    // Allow certain file formats
+                    if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
+                    && $imageFileType != "gif" && $imageFileType != "webp" ) {
+                        $erreur = true;
+                        $alert-> setType("alert-danger");
+                        $alert-> setTitle("Désolé !");
+                        $alert-> setContent("Le fichier envoyé comme photo n'est pas autorisé...");
+                        $alert-> setFooter("Seuls les fichiers JPG, JPEG, PNG, GIF et WEBP sont autorisés.");
+                    }
+                    
+                    // Check if no error occured
+                    if (!$erreur) {
+                        // supprimer le fichier de l'image existante...
+                        //unlink(realpath($target_file));
+                        if (move_uploaded_file($_FILES["image"]["tmp_name"], $target_file)) {
+                            //echo "The file ". htmlspecialchars( basename( $_FILES["file"]["name"])). " has been uploaded.";
+                            
+                            // puis mettre à jour l'utilisateur courant...
+                            $article-> setImage($target_file);
+        
+                            $alert-> setType("alert-success");
+                            $alert-> setTitle("Felicitations !");
+                            $alert-> setContent("La photo de votre profile a bien été mise à jour...");
+                            } else {
+                            $alert-> setType("alert-danger");
+                            $alert-> setTitle("Désolé !");
+                            $alert-> setContent("Une erreur s'est produite lors de l'envoi de votre photo...");
+                        }
+                    }
+                }
+        
+                if (!$erreur) {
+                    $keywords = str_replace(",", " ", $_POST["keywords"]);
+                    $keywords = str_replace(";", " ", $_POST["keywords"]);
+                    $keywords = trim(str_replace(".", " ", $_POST["keywords"]));
+        
+                    $article-> setTitle($_POST["titre"]);
+                    $article-> setAbstract($_POST["abstract"]);
+                    $article-> setHeader($_POST["header"]);
+                    $article-> setContent($_POST["content"]);
+                    $article-> setFooter($_POST["footer"]);
+                    $article-> setKeywordsArray(explode(" ", $keywords));
+        
+                    if ($article-> save()) {
+                        $alert-> setType("alert-success");
+                        $alert-> setTitle("Felicitations !");
+                        $alert-> setContent("Votre nouvel article a bien été ajouté...");
+                    } else {
+                        $alert-> setType("alert-danger");
+                        $alert-> setTitle("Désolé !");
+                        $alert-> setContent("Votre nouvel article n'a pu être ajouté...");
+                    } 
+                }
+            }
         } else if ($manage == "competences") {
 
         } else if ($mange == "experiences") {
@@ -251,12 +326,12 @@
 
             <?php // Administration des articles (page d'accueil)
                 if ($manage == "articles"): ?>
-                    <form action="" method="post">
+                    <form action="" method="post" enctype="multipart/form-data">
                         <input type="hidden" name="action" id="action" value="create">
                         <div class="form-group">
                             <div class="row">
                                 <div class="col-12 col-lg-4 mb-2">
-                                    <input type="file" class="form-control w-100" name="file" id="file">
+                                    <input type="file" class="form-control w-100" name="image" id="image">
                                 </div>
                                 <div class="col-12 col-lg-8 mb-2">
                                     <input type="text" name="titre" id="titre" class="form-control" placeholder="Titre" required>
@@ -315,6 +390,7 @@
                             <tr>
                                 <th>#</th>
                                 <th>titre</th>
+                                <th>Publié</th>
                                 <th></th>
                                 <th></th>
                                 <th></th>
@@ -323,85 +399,122 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <th scope="row" class="px-2">1</th>
-                                <td class="px-2 w-100">un titre...</td>
-                                <td><button class="btn btn-sm btn-outline-secondary"><i class="fas fa-eye"></i></button></td>
-                                <td>
-                                    <form action="">
-                                        <input type="hidden" name="article">
-                                        <button class="btn btn-sm btn-outline-secondary"><i class="fas fa-chevron-down"></i></i></button>
-                                    </form>
-                                </td>
-                                <td></td>
-                                <td>
-                                    <form action="">
-                                        <input type="hidden" name="article">
-                                        <button class="btn btn-sm btn-outline-secondary"><i class="fas fa-pen"></i></button>
-                                    </form>
-                                </td>
-                                <td>
-                                    <form action="">
-                                        <input type="hidden" name="article">
-                                        <button class="btn btn-sm btn-outline-secondary"><i class="fas fa-trash-alt"></i></button>
-                                    </form>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th scope="row" class="px-2">2</th>
-                                <td class="px-2 w-100">un titre...</td>
-                                <td><button class="btn btn-sm btn-outline-secondary"><i class="fas fa-eye"></i></button></td>
-                                <td>
-                                    <form action="">
-                                        <input type="hidden" name="article">
-                                        <button class="btn btn-sm btn-outline-secondary"><i class="fas fa-chevron-down"></i></i></button>
-                                    </form>
-                                </td>
-                                <td>
-                                    <form action="">
-                                        <input type="hidden" name="article">
-                                        <button class="btn btn-sm btn-outline-secondary"><i class="fas fa-chevron-up"></i></i></button>
-                                    </form>
-                                </td>
-                                <td>
-                                    <form action="">
-                                        <input type="hidden" name="article">
-                                        <button class="btn btn-sm btn-outline-secondary"><i class="fas fa-pen"></i></button>
-                                    </form>
-                                </td>
-                                <td>
-                                    <form action="">
-                                        <input type="hidden" name="article">
-                                        <button class="btn btn-sm btn-outline-secondary"><i class="fas fa-trash-alt"></i></button>
-                                    </form>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th scope="row" class="px-2">3</th>
-                                <td class="px-2 w-100">un titre...</td>
-                                <td><button class="btn btn-sm btn-outline-secondary"><i class="fas fa-eye"></i></button></td>
-                                <td></td>
-                                <td>
-                                    <form action="">
-                                        <input type="hidden" name="article">
-                                        <button class="btn btn-sm btn-outline-secondary"><i class="fas fa-chevron-up"></i></i></button>
-                                    </form>
-                                </td>
-                                <td>
-                                    <form action="">
-                                        <input type="hidden" name="article">
-                                        <button class="btn btn-sm btn-outline-secondary"><i class="fas fa-pen"></i></button>
-                                    </form>
-                                </td>
-                                <td>
-                                    <form action="">
-                                        <input type="hidden" name="article">
-                                        <button class="btn btn-sm btn-outline-secondary"><i class="fas fa-trash-alt"></i></button>
-                                    </form>
-                                </td>
-                            </tr>
+
+                            <?php
+                                $i = 0;
+
+                                foreach ($articles as $article): 
+                                    $i++; ?>
+                                    <tr>
+                                        <th scope="row" class="px-2"><?= $article-> getLayout(); ?></th>
+                                        <td class="px-2 w-100"><?= $article-> getTitle(); ?></td>
+                                        <td class="text-nowrap">
+                                            <?php if ($article-> getStatus()): ?>
+                                                <i class="fas fa-vote-yea"></i>
+                                            <?php endif; ?>
+                                        </td>
+
+                                        <td>
+                                            <button class="btn btn-sm btn-outline-secondary" data-toggle="modal" data-target="#modal-<?= $article-> getId(); ?>"><i class="fas fa-eye"></i></button>
+                                        </td>
+                                        
+                                        <?php if ($i == 1): 
+                                            // 1er article ... ?>
+                                            <td>
+                                                <form action="">
+                                                    <input type="hidden" name="article">
+                                                    <button class="btn btn-sm btn-outline-secondary"><i class="fas fa-chevron-down"></i></i></button>
+                                                </form>
+                                            </td>
+                                            <td></td>
+                                        <?php elseif (count($articles) == $i): 
+                                            // Dernier article ... ?>
+                                            <td></td>
+                                            <td>
+                                                <form action="">
+                                                    <input type="hidden" name="article">
+                                                    <a class="btn btn-sm btn-outline-secondary"><i class="fas fa-chevron-up"></i></a>
+                                                </form>
+                                            </td>
+                                        <?php else: 
+                                            // Les autres articles ... ?>
+                                            <td>
+                                                <form action="">
+                                                    <input type="hidden" name="article">
+                                                    <button class="btn btn-sm btn-outline-secondary"><i class="fas fa-chevron-down"></i></button>
+                                                </form>
+                                            </td>
+                                            <td>
+                                                <form action="">
+                                                    <input type="hidden" name="article">
+                                                    <button class="btn btn-sm btn-outline-secondary"><i class="fas fa-chevron-up"></i></button>
+                                                </form>
+                                            </td>
+                                        <?php endif; ?>
+
+                                        <td>
+                                            <form action="">
+                                                <input type="hidden" name="article">
+                                                <button class="btn btn-sm btn-outline-secondary"><i class="fas fa-pen"></i></button>
+                                            </form>
+                                        </td>
+                                        <td>
+                                            <form action="">
+                                                <input type="hidden" name="article">
+                                                <button class="btn btn-sm btn-outline-secondary"><i class="fas fa-trash-alt"></i></button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                            <?php endforeach; ?>
+
                         </tbody>
                     </table>
+
+                    <?php foreach ($articles as $article): ?>
+                    <!-- Modal -->
+                        <div class="modal fade" id="modal-<?= $article-> getId(); ?>" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="sbl"><?= $article-> getTitle(); ?></h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <?php if ($article-> getAbstract() != ""): ?>
+                                            <h6>Extrait:</h6>
+                                            <pre><?= $article-> getAbstract(); ?></pre>
+                                            <hr>
+                                        <?php endif; 
+                                        if ($article-> getImage() != ""): ?>
+                                            <img src="<?= $article-> getImage(); ?>" alt="<?= $article-> getTitle(); ?>" title="<?= $article-> getTitle(); ?>" class="img-thumbnail">
+                                        <?php endif;
+                                            if ($article-> getHeader() != ""): ?>
+                                                <pre><?= $article-> getHeader(); ?></pre>
+                                        <?php endif; ?>
+                                        <p><?= $article-> getContent(); ?></p>
+                                        <?php if ($article-> getFooter()): ?>
+                                            <pre><?= $article-> getFooter(); ?></pre>
+                                        <?php endif; ?>
+
+                                        <hr>
+                                        <h6>Statut:</h6>
+                                        <?php if ($article-> getStatus()): ?>
+                                            article publié -
+                                            <button class="btn btn-secondary btn-sm"><i class="fas fa-archive"> archiver l'article</i></button>
+                                        <?php else: ?>
+                                            article archivé -
+                                            <button class="btn btn-secondary btn-sm"><i class="fas fa-print"></i> publier l'article</button>
+                                        <?php endif; ?>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    <?php endforeach; ?>
             <?php // Administration des compétences
                 elseif ($manage == "competences"): ?>
                     <form action="" method="post">
