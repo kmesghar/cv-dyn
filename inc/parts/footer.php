@@ -2,7 +2,7 @@
 
         <footer class="container-fluid text-white bg-secondary py-5 text-center mt-5">
             Ce CV est entièrement dynamique et facile à mettre à jour via son tableau de bord !<br>
-            2020<?php
+            &copy; 2020<?php
                     if (date("Y") > 2020) echo "-" . date("Y");
                 ?>
         </footer>

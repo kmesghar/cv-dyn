@@ -21,10 +21,10 @@
     <main class="container mt-3">
         <section id="presentation">
             <div class="row">
-                <div class="col">
+                <div class="col-4">
                     <img src="<?= $user->getPhoto();?>" alt="<?=$user->getNom();?>" class="img-fluid rounded mb-3">
                 </div>
-                <div class="col">
+                <div class="col-8">
                     <div class="row">
                         <div class="col"><h3><?=$user->posteRecherche();?></h3></div>
                     </div>
@@ -77,13 +77,13 @@
                     </div>
 
                     <div class="row pb-1">
-                        <div class="col align-self-center"><i class="fas fa-mobile-alt"></i> <?=$user->getTelephone();?></div>
-                        <div class="col"><a href="tel:<?=$user->getTelephone();?>" class="btn btn-secondary w-50">M'appeller</a></div>
+                        <div class="col-12 col-md-6 align-self-center"><i class="fas fa-mobile-alt"></i> <?=$user->getTelephone();?></div>
+                        <div class="col-12 col-md-6"><a href="tel:<?=$user->getTelephone();?>" class="btn btn-secondary w-100">M'appeller</a></div>
                     </div>
 
                     <div class="row">
-                        <div class="col align-self-center font-weight-bold"><i class="fas fa-at"></i> <?=$user->getEmail();?></div>
-                        <div class="col"><a href="contact.php" class="btn btn-secondary w-50">Me contacter</a></div>
+                        <div class="col-12 col-lg-6 align-self-center font-weight-bold"><i class="fas fa-at"></i> <?=$user->getEmail();?></div>
+                        <div class="col-12 col-lg-6"><a href="contact.php" class="btn btn-secondary w-100">Me contacter</a></div>
                     </div>
                 </div>
             </div>
