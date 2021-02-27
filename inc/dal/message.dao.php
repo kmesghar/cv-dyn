@@ -27,7 +27,26 @@
         public static function loadAll(int $filterMode): array {
             include_once __DIR__ . "/database.php";
 
-            $sql = "SELECT * FROM messages;";
+            $sql = "";
+            switch ($filterMode) {
+                case Message::LOAD_ALL:
+                    $sql = "SELECT * FROM messages WHERE _archive=0 AND _trash=0;";
+                    break;
+                case Message::LOAD_ONLY_NOT_READ:
+                    $sql = "SELECT * FROM messages WHERE _read=0 AND _archive=0 AND _trash=0;";
+                    break;
+                case Message::LOAD_ONLY_READ:
+                    $sql = "SELECT * FROM messages WHERE _read=1  _archive=0 AND _trash=0;";
+                    break;
+                case Message::LOAD_ONLY_ARCHIVED:
+                    $sql = "SELECT * FROM messages WHERE _archive=1 AND _trash=0;";
+                    break;
+                case Message::LOAD_ONLY_TRASHED:
+                    $sql = "SELECT * FROM messages WHERE _trash=1;";
+                    break;
+                default:
+                    break;
+            }
 
             try {
                 $connexionString = "mysql: host=" . Database::HOST . "; port=" . Database::PORT . "; dbname=" . Database::DBNAME . "; charset=utf8";

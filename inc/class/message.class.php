@@ -6,7 +6,8 @@
         public const LOAD_ALL = 0;
         public const LOAD_ONLY_NOT_READ = 1;
         public const LOAD_ONLY_READ = 2;
-        public const LOAD_ONLYtrash = 3;
+        public const LOAD_ONLY_ARCHIVED = 3;
+        public const LOAD_ONLY_TRASHED = 4;
 
         private int $id;
         private string $email;
@@ -16,9 +17,10 @@
         private string $message;
         private DateTime $date;
         private bool $read;
+        private bool $archive;
         private bool $trash;
 
-        public function __construct($message="", $date="", $id=0, $email="", $name="", $phone="", $subject="", $read=false, $trash=false) {
+        public function __construct($message="", $date="", $id=0, $email="", $name="", $phone="", $subject="", $read=false, $archive=false, $trash=false) {
             $this-> id = $id;
             $this-> email = $email;
             $this-> name = $name;
@@ -27,6 +29,7 @@
             $this-> message = $message;
             $this-> date = new DateTime($date);
             $this-> read = $read;
+            $this-> archive = $archive;
             $this-> trash = $trash;
         }
 
@@ -39,6 +42,7 @@
             $this-> message = $message-> getMessage();
             $this-> date = $message-> getDate();
             $this-> read = $message-> getRead();
+            $this-> archive = $archive-> getArchived();
             $this-> trash = $message-> getTrash();
         }
 
@@ -91,6 +95,8 @@
                 $this-> date = new DateTime($value);
             } else if ($property == "_read") {
                 $this-> read = $value;
+            } else if ($property == "_archive") {
+                $this-> archive = $value;
             } else if ($property == "_trash") {
                 $this-> trash = $value;
             } else {
@@ -130,6 +136,10 @@
             return $this-> read;
         }
 
+        public function getArchived(): bool {
+            return $this-> archive;
+        }
+
         public function getDeleted(): bool {
             return $this-> trash;
         }
@@ -165,6 +175,10 @@
 
         public function setRead(bool $read): void {
             $this-> read = $read;
+        }
+
+        public function setArchived(bool $read): void {
+            $this-> archive = $archive;
         }
 
         public function setDeleted(bool $deleted): void {

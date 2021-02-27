@@ -26,8 +26,21 @@
             <?= $alert; ?>
         <?php endif; ?>
         
+        <form action="" class="mt-3 float-right">
+            <div class="form-group form-inline">
+                <label for="filtre">Filtrer&nbsp;:&nbsp;&nbsp;
+                    <select name="filtre" id="filtre" class="form-control">
+                        <option value="all">Tous mes messages</option>
+                        <option value="news">Non lus seulement</option>
+                        <option value="read">Lus seulement</option>
+                        <option value="archives">Voir les message archivés</option>
+                        <option value="trash">Voir les message dans la corbeille</option>
+                    </select>
+                </label>
+            </div>
+        </form>
         
-        <table class="table table-striped mt-5">
+        <table class="table table-striped mt-3">
             <thead>
                 <tr>
                     <th>#</th>
@@ -83,6 +96,41 @@
                         </td>
                     </tr>
                 <?php } ?>
+
+                
+                <?php foreach ($messages as $message): ?>
+                    <!-- Modal -->
+                        <div class="modal fade" id="modal-<?= $message-> getId(); ?>" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="sbl"><?= $message-> getFrom(); ?></h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <p><?= $message-> getSubject(); ?></p>
+                                        <hr>
+                                        <p><?= $message-> getMessage(); ?></p>
+
+                                        <hr>
+                                        <h6>Informations:</h6>
+                                            Message <?= $message-> getName(); ?> <<?= $message-> getFrom(); ?>><br>
+                                            <?php if ($message-> getPhone() != ""): ?>
+                                                Joignable au <?= $message-> getPhone(); ?><br>
+                                            <?php endif; ?>
+                                            recu le <?=  $message-> getDate()-> format("d/m/Y"); ?> à <?=  $message-> getDate()-> format("H:i"); ?><br>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-outline-danger"><i class="fas fa-trash-alt"></i> Supprimer</button>
+                                        <button type="button" class="btn btn-outline-secondary"><i class="fas fa-reply"></i> Répondre</button>
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fas fa-times"></i> Fermer</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    <?php endforeach; ?>
 
             </tbody>
         </table>
