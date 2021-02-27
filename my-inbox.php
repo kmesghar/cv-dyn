@@ -1,6 +1,9 @@
 <?php
     session_name("my-dynamic-cv");
     session_start();
+    
+    if (!isset($_SESSION["user"]))
+        header("Location: ./");
 
     include_once "inc/utils/functions.php";
 
