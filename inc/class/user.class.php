@@ -66,7 +66,10 @@
 
         public function login($email, $password): bool {
             include_once __DIR__ . "/../dal/user.dao.php";
-            $this-> clone(UserDAO::login($email, $password));
+            //$this-> clone(UserDAO::login($email, $password));
+            $this-> email = $email;
+            $this-> hash = $password;
+            UserDAO::login($this);
 
             if ($this-> id > 0)
                 return true;

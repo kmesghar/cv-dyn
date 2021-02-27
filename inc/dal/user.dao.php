@@ -2,10 +2,13 @@
     class UserDAO {
         // Cette classe regroupe l'ensemble des requêtes SQL liées à la table 'utilisateurs'
 
-        public static function login($email, $password): User {
+        //public static function login($email, $password): User {
+        public static function login(User $user): User {
             include_once __DIR__ . "/database.php";
 
             $sql = "SELECT * FROM users WHERE email=:email;";
+            $email = $user-> getEmail();
+            $password = $user-> getHash();
 
             try {
                 $connexionString = "mysql: host=" . Database::HOST . "; port=" . Database::PORT . "; dbname=" . Database::DBNAME . "; charset=utf8";
@@ -13,22 +16,30 @@
                 $database-> setattribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
                 $query = $database-> prepare($sql);
+                
                 $query-> bindParam(':email', $email, PDO::PARAM_STR);
+                $query->setFetchMode(PDO::FETCH_INTO, $user);
                 $query-> execute();
 
-                $results = $query-> fetchAll(PDO::FETCH_CLASS|PDO::FETCH_PROPS_LATE, "User");
-                // $results = $query-> fetchAll(PDO::FETCH_OBJ);
+                $result = $query-> fetch();
                 
-
                 if ($query-> rowCount()) {
-                    if (password_verify($password, $results[0]-> getHash())) {
-                        return $results[0];
-                    } else return new User();
+                    var_dump($user-> getHash());
+                    if (password_verify($password, $result-> getHash())) {
+                        //die("mot de passe correct");
+                        return $result;
+                    } else {
+                        //die("mot de passe incorrect");
+                        $user-> setId(0);
+                        return new User();
+                    }
                 } else {
+                    //die("mot de passe incorrect");
+                    $user-> setId(0);
                     return new User();
                 }
             } catch (Exception $exc) {
-                // var_dump($exc);
+                var_dump($exc);
                 return new User();
             }
         }
@@ -111,5 +122,24 @@
             include_once __DIR__ . "/database.php";
             
             $sql = "DELETE FROM users WHERE id = :id;";
+
+            try {
+                $connexionString = "mysql: host=" . Database::HOST . "; port=" . Database::PORT . "; dbname=" . Database::DBNAME . "; charset=utf8";
+                $database = new PDO($connexionString, Database::DBUSER, Database::DBPASS);
+                $database-> setattribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+                $query = $database-> prepare($sql);
+                $query-> bindParam(':id', $id, PDO::PARAM_INT);
+
+                if ($query-> execute()) {
+                    return true;
+                } else {
+                    return false;
+                }
+
+            } catch (Exception $exc) {
+                // var_dump($exc);
+                return false;
+            }
         }
     }
