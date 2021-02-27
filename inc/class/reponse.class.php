@@ -1,4 +1,7 @@
 <?php
+    /**
+     *  Les réponses (Reponse) envoyées aux demande de contact (Message);
+     */
     class Reponse {
         public const LOAD_ALL = 0;
         public const LOAD_ONLY_NOT_READ = 1;

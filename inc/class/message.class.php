@@ -1,9 +1,12 @@
 <?php
+    /**
+     *  Les demandes de contact des visiteurs (Message)
+     */
     class Message {
         public const LOAD_ALL = 0;
         public const LOAD_ONLY_NOT_READ = 1;
         public const LOAD_ONLY_READ = 2;
-        public const LOAD_ONLY_TRASH = 3;
+        public const LOAD_ONLYtrash = 3;
 
         private int $id;
         private string $email;
@@ -11,20 +14,20 @@
         private ?string $phone;
         private string $subject;
         private string $message;
-        private DateTime $_date;
-        private bool $_read;
-        private bool $_trash;
+        private DateTime $date;
+        private bool $read;
+        private bool $trash;
 
-        public function __construct() {
-            $this-> id = 0;
-            $this-> email = "";
-            $this-> name = "";
-            $this-> phone = "";
-            $this-> subject = "";
-            $this-> message = "";
-            $this-> _date = new DateTime();
-            $this-> _read = false;
-            $this-> _trash = false;
+        public function __construct($message="", $date="", $id=0, $email="", $name="", $phone="", $subject="", $read=false, $trash=false) {
+            $this-> id = $id;
+            $this-> email = $email;
+            $this-> name = $name;
+            $this-> phone = $phone;
+            $this-> subject = $subject;
+            $this-> message = $message;
+            $this-> date = new DateTime($date);
+            $this-> read = $read;
+            $this-> trash = $trash;
         }
 
         private function clone(Message $message): void {
@@ -34,9 +37,9 @@
             $this-> phone = $message-> getPhone();
             $this-> subject = $message-> getSubject();
             $this-> message = $message-> getMessage();
-            $this-> _date = $message-> getDate();
-            $this-> _read = $message-> getRead();
-            $this-> _trash = $message-> getTrash();
+            $this-> date = $message-> getDate();
+            $this-> read = $message-> getRead();
+            $this-> trash = $message-> getTrash();
         }
 
         public static function getNotReadCount(): int {
@@ -80,6 +83,21 @@
             // Supprimer définitivement
         }
 
+        /**
+         *  Un setter 'auto' magic pour PDO
+         */
+        public function __set($property, $value) {
+            if ($property == "_date") {
+                $this-> date = new DateTime($value);
+            } else if ($property == "_read") {
+                $this-> read = $value;
+            } else if ($property == "_trash") {
+                $this-> trash = $value;
+            } else {
+                $this->$property = $value;
+            }
+        }
+
         /* LES HABITUELS GETTERS */
         public function getId(): int {
             return $this-> id;
@@ -105,15 +123,15 @@
         }
 
         public function getDate(): DateTime {
-            return $this-> _date;
+            return $this-> date;
         }
 
         public function getRead(): bool {
-            return $this-> _read;
+            return $this-> read;
         }
 
         public function getDeleted(): bool {
-            return $this-> _trash;
+            return $this-> trash;
         }
 
         /* ET LES TOUT AUSSI HABITUELS SETTERS */
@@ -142,14 +160,14 @@
         }
 
         public function setDate(DateTime $date): void {
-            $this-> _date = $date;
+            $this-> date = $date;
         }
 
         public function setRead(bool $read): void {
-            $this-> _read = $read;
+            $this-> read = $read;
         }
 
         public function setDeleted(bool $deleted): void {
-            $this-> _trash = $deleted;
+            $this-> trash = $deleted;
         }
     }

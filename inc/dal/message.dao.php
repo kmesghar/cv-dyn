@@ -1,6 +1,6 @@
 <?php
     class MessageDAO {
-        // Cette classe regroupe l'ensemble des requêtes SQL liées à la table 'competences'
+        // Cette classe regroupe l'ensemble des requêtes SQL liées à la table 'messages'
 
         public static function getNotReadCount(): int {
             include_once __DIR__ . "/database.php";
@@ -37,13 +37,12 @@
                 $query = $database-> prepare($sql);
                 $query-> execute();
 
-                // Cette ligne ne 'retourne' pas des objets Competence mais STDClass
-                //$results = $query-> fetchAll(PDO::FETCH_OBJ);
-                // Problème résolu avec cette écriture qui précise la classe attendue
-                $results = $query-> fetchAll(PDO::FETCH_CLASS, "Message");
+                //$results = $query-> fetchAll(PDO::FETCH_CLASS, "Message");
+                $results = $query-> fetchAll(PDO::FETCH_CLASS|PDO::FETCH_PROPS_LATE, "Message");
 
-                return results;
+                return $results;
             } catch (Exception $exc) {
+                //var_dump($exc);
                 return array();
             }
         }
