@@ -21,3 +21,23 @@ main {
 .hidden {
     display: none;
 }
+
+.star {
+    visibility:hidden;
+    font-size:35px;
+    margin-right: 5px;
+    margin-left: 10px;
+    cursor:pointer;
+}
+.star:before {
+    content: "\2606";
+    position: absolute;
+    top: -15px;
+    visibility:visible;
+}
+.star:checked:before {
+    color: #6c757d;
+    content: "\2605";
+    top: -15px;
+    position: absolute;
+}

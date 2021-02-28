@@ -1,3 +1,81 @@
+function click_star1() {
+    var star1 = document.getElementById("star1");
+    var star2 = document.getElementById("star2");
+    var star3 = document.getElementById("star3");
+    var star4 = document.getElementById("star4");
+    var star5 = document.getElementById("star5");
+
+    if (!star1.checked) {
+        star2.checked = false;
+        star3.checked = false;
+        star4.checked = false;
+        star5.checked = false;
+    }
+}
+
+function click_star2() {
+    var star1 = document.getElementById("star1");
+    var star2 = document.getElementById("star2");
+    var star3 = document.getElementById("star3");
+    var star4 = document.getElementById("star4");
+    var star5 = document.getElementById("star5");
+
+    if (!star2.checked) {
+        star3.checked = false;
+        star4.checked = false;
+        star5.checked = false;
+    } else {
+        star1.checked = true;
+    }
+}
+
+function click_star3() {
+    var star1 = document.getElementById("star1");
+    var star2 = document.getElementById("star2");
+    var star3 = document.getElementById("star3");
+    var star4 = document.getElementById("star4");
+    var star5 = document.getElementById("star5");
+
+    if (!star3.checked) {
+        star4.checked = false;
+        star5.checked = false;
+    } else {
+        star1.checked = true;
+        star2.checked = true;
+    }
+}
+
+function click_star4() {
+    var star1 = document.getElementById("star1");
+    var star2 = document.getElementById("star2");
+    var star3 = document.getElementById("star3");
+    var star4 = document.getElementById("star4");
+    var star5 = document.getElementById("star5");
+
+    if (!star4.checked) {
+        star5.checked = false;
+    } else {
+        star1.checked = true;
+        star2.checked = true;
+        star3.checked = true;
+    }
+}
+
+function click_star5() {
+    var star1 = document.getElementById("star1");
+    var star2 = document.getElementById("star2");
+    var star3 = document.getElementById("star3");
+    var star4 = document.getElementById("star4");
+    var star5 = document.getElementById("star5");
+
+    if (star5.checked) {
+        star1.checked = true;
+        star2.checked = true;
+        star3.checked = true;
+        star4.checked = true;
+    }
+}
+
 function post(url, message, action) {
     console.log(message + " " + action);
     

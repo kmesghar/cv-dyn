@@ -516,7 +516,7 @@
                     <?php endforeach; ?>
             <?php // Administration des compétences
                 elseif ($manage == "competences"): ?>
-                    <form action="" method="post">
+                    <form action="" method="post" class="mb-5">
                         <div class="form-group">
                             <div class="row">
                                 <div class="col-12 col-lg-4 mb-2">
@@ -533,8 +533,15 @@
                                 </div>
                             </div>
 
-                            <div class="row justify-content-end mb-2">
-                                <div class="col-12 col-lg-4 text-right">
+                            <div class="row mb-2">
+                                <div class="col-6 col-lg-8">Mon niveau :
+                                    <input id="star1" class="star" type="checkbox" title="Mon niveau 1/5" onclick="click_star1();" checked>
+                                    <input id="star2" class="star" type="checkbox" title="Mon niveau 3/5" onclick="click_star2();">
+                                    <input id="star3" class="star" type="checkbox" title="Mon niveau 2/5" onclick="click_star3();">
+                                    <input id="star4" class="star" type="checkbox" title="Mon niveau 4/5" onclick="click_star4();">
+                                    <input id="star5" class="star" type="checkbox" title="Mon niveau 5/5" onclick="click_star5();">
+                                </div>
+                                <div class="col-6 col-lg-4 text-right">
                                     <button class="btn btn-secondary w-100">Ajouter une nouvelle compétence</button>
                                 </div>
                             </div>
@@ -547,6 +554,7 @@
                             <tr>
                                 <th>#</th>
                                 <th>FA</th>
+                                <th>Niveau</th>
                                 <th>Compétence</th>
                                 <th>Description</th>
                                 <th></th>
@@ -558,6 +566,7 @@
                             <tr>
                                 <th scope="row" class="px-2">1</th>
                                 <td class="px-2 text-nowrap"><i class="fab fa-2x fa-html5"></i></td>
+                                <td class="px-2 text-nowrap">1/5</td>
                                 <td class="px-2 text-nowrap">HTML 5</td>
                                 <td class="px-2 w-100">Sa description...</td>
                                 <td><button class="btn btn-sm btn-outline-secondary"><i class="fas fa-eye"></i></button></td>
@@ -567,6 +576,7 @@
                             <tr>
                                 <th scope="row" class="px-2">2</th>
                                 <td class="px-2 text-nowrap"><i class="fab fa-2x fa-css3-alt"></i></td>
+                                <td class="px-2 text-nowrap">1/5</td>
                                 <td class="px-2 text-nowrap">CSS3</td>
                                 <td class="px-2 w-100">Sa description...</td>
                                 <td><button class="btn btn-sm btn-outline-secondary"><i class="fas fa-eye"></i></button></td>
@@ -576,6 +586,7 @@
                             <tr>
                                 <th scope="row" class="px-2">3</th>
                                 <td class="px-2 text-nowrap"><i class="fab fa-2x fa-js-square"></i></td>
+                                <td class="px-2 text-nowrap">1/5</td>
                                 <td class="px-2 text-nowrap">Javascript ES6</td>
                                 <td class="px-2 w-100">Sa description...</td>
                                 <td><button class="btn btn-sm btn-outline-secondary"><i class="fas fa-eye"></i></button></td>
@@ -585,6 +596,7 @@
                             <tr>
                                 <th scope="row" class="px-2">4</th>
                                 <td class="px-2 text-nowrap"><i class="fab fa-2x fa-php"></i></td>
+                                <td class="px-2 text-nowrap">1/5</td>
                                 <td class="px-2 text-nowrap">PHP 7.4</td>
                                 <td class="px-2 w-100">Sa description...</td>
                                 <td><button class="btn btn-sm btn-outline-secondary"><i class="fas fa-eye"></i></button></td>
