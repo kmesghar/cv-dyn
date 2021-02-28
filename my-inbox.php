@@ -28,6 +28,7 @@
     if (isset($_POST["action"]) && isset($_POST["message"])) {
         switch ($_POST["action"]) {
             case "mark-unread":
+                Message::_unsetFlagRead($_POST["message"]);
                 break;
             case "mark-read":
                 Message::_setFlagRead($_POST["message"]);

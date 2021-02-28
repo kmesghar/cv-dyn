@@ -114,6 +114,16 @@
             } else return false;
         }
 
+
+        public STATIC function _unsetFlagRead(int $id): bool {
+            include_once __DIR__ . "/../dal/message.dao.php";
+            // Marquer comme non lu (flag read en base de données)
+
+            if (MessageDAO::unsetFlagRead($id)) {
+                return true;
+            } else return false;
+        }
+
         public function setFlagArchive(): bool {
             include_once __DIR__ . "/../dal/message.dao.php";
             // Marquer comme archivé (flag archive en base de données)
