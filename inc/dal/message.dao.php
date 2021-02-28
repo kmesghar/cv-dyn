@@ -24,25 +24,70 @@
             }
         }
 
-        public static function loadAll(int $filterMode): array {
+        public static function count(int $filterMode): int {
             include_once __DIR__ . "/database.php";
 
             $sql = "";
             switch ($filterMode) {
                 case Message::LOAD_ALL:
-                    $sql = "SELECT * FROM messages WHERE _archive=0 AND _trash=0;";
+                    $sql = "SELECT COUNT(*) AS results FROM messages WHERE _archive=0 AND _trash=0;";
                     break;
                 case Message::LOAD_ONLY_NOT_READ:
-                    $sql = "SELECT * FROM messages WHERE _read=0 AND _archive=0 AND _trash=0;";
+                    $sql = "SELECT COUNT(*) AS results FROM messages WHERE _read=0 AND _archive=0 AND _trash=0;";
                     break;
                 case Message::LOAD_ONLY_READ:
-                    $sql = "SELECT * FROM messages WHERE _read=1  AND _archive=0 AND _trash=0;";
+                    $sql = "SELECT COUNT(*) AS results FROM messages WHERE _read=1  AND _archive=0 AND _trash=0;";
                     break;
                 case Message::LOAD_ONLY_ARCHIVED:
-                    $sql = "SELECT * FROM messages WHERE _archive=1 AND _trash=0;";
+                    $sql = "SELECT COUNT(*) AS results FROM messages WHERE _archive=1 AND _trash=0;";
                     break;
                 case Message::LOAD_ONLY_TRASHED:
-                    $sql = "SELECT * FROM messages WHERE _trash=1;";
+                    $sql = "SELECT COUNT(*) AS results FROM messages WHERE _trash=1;";
+                    break;
+                default:
+                    break;
+            }
+
+            try {
+                $connexionString = "mysql: host=" . Database::HOST . "; port=" . Database::PORT . "; dbname=" . Database::DBNAME . "; charset=utf8";
+                $database = new PDO($connexionString, Database::DBUSER, Database::DBPASS);
+                $database-> setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+                $query = $database-> prepare($sql);
+                $results = $query->execute();
+    
+                if ($query->rowCount() > 0) {
+                    $results = $query -> fetchall(PDO::FETCH_OBJ);
+    
+                    return $results[0]->results;
+                } else {
+                    return 0;
+                }
+            } catch (Exception $exc) {
+                //var_dump($exc);
+                return array();
+            }
+        }
+
+        public static function loadAll(int $filterMode, int $first, int $perPage): array {
+            include_once __DIR__ . "/database.php";
+
+            $sql = "";
+            switch ($filterMode) {
+                case Message::LOAD_ALL:
+                    $sql = "SELECT * FROM messages WHERE _archive=0 AND _trash=0 LIMIT $first, $perPage;";
+                    break;
+                case Message::LOAD_ONLY_NOT_READ:
+                    $sql = "SELECT * FROM messages WHERE _read=0 AND _archive=0 AND _trash=0 LIMIT $first, $perPage;";
+                    break;
+                case Message::LOAD_ONLY_READ:
+                    $sql = "SELECT * FROM messages WHERE _read=1  AND _archive=0 AND _trash=0 LIMIT $first, $perPage;";
+                    break;
+                case Message::LOAD_ONLY_ARCHIVED:
+                    $sql = "SELECT * FROM messages WHERE _archive=1 AND _trash=0 LIMIT $first, $perPage;";
+                    break;
+                case Message::LOAD_ONLY_TRASHED:
+                    $sql = "SELECT * FROM messages WHERE _trash=1 LIMIT $first, $perPage;";
                     break;
                 default:
                     break;
@@ -123,10 +168,53 @@
             $sql = "SELECT * FROM messages WHERE id = :id;";
         }
 
+        public static function setFlagRead(int $id): bool {
+            include_once __DIR__ . "/database.php";
+
+            // Marquer comme lu (flag read en base de données)
+            $sql = "UPDATE messages SET _read=1 WHERE id=:id";
+
+            try {
+                $connexionString = "mysql: host=" . Database::HOST . "; port=" . Database::PORT . "; dbname=" . Database::DBNAME . "; charset=utf8";
+                $database = new PDO($connexionString, Database::DBUSER, Database::DBPASS);
+                $database-> setattribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+                $query = $database-> prepare($sql);
+
+                $query->bindParam(':id', $id, PDO::PARAM_INT);
+
+                if ($query-> execute()) {
+                    return true;
+                } else {
+                    return false;
+                }
+            } catch (Exception $exc) {
+                var_dump($exc);
+                return false;
+            }
+        }
+
+        public static function unsetFlagRead(int $id): bool {
+            // Marquer comme non lu (flag read en base de données)
+        }
+
+        public static function setFlagarchive(int $id): bool {
+            // Marquer comme archivé (flag archive en base de données)
+        }
+
+        public static function unsetFlagArchive(int $id): bool {
+            // Marquer comme non archivé (flag archive en base de données)
+        }
+
         public static function delete(int $id): bool {
             include_once __DIR__ . "/database.php";
             
             $sql = "UPDATE messages SET trash = 1 WHERE id = :id;";
+        }
+
+        public function restore(int $id): bool {
+            // Restaurer depuis la corbeille (flag corbeille en base de données)
+
         }
 
         public static function drop(int $id): bool {

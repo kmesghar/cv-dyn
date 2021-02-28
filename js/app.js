@@ -1,3 +1,34 @@
+function post(url, message, action) {
+    console.log(message + " " + action);
+    
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST", url, true);
+    
+    //Envoie les informations du header adaptées avec la requête
+    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+    
+    xhr.onreadystatechange = function() { //Appelle une fonction au changement d'état.
+        if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
+            // Requête finie, traitement ici.
+            console.log("sent");
+            document.getElementById("line-" + message).classList.remove("font-weight-bold");
+            document.getElementById("unread").innerText--;
+
+            var form = "<form action='' method='post'>";
+            form += "   <input type='hidden' name='message' value='" + message + "'>"; 
+            form += "   <input type='hidden' name='action' value='mark-unread'>";
+            form += "    <button class='btn btn-sm btn-outline-secondary w-100' title='Marquer comme non lu'><i class='far fa-bell'></i></button>";
+            form += "</form>";
+
+            document.getElementById("form-mark-read").innerHTML = form;
+        }
+    }
+    xhr.send("message=" + message + "&action=" + action);
+    // xhr.send(new Int8Array());
+    // xhr.send(document);
+    
+}
+
 function showElement(element) {
     element.classList.remove("hidden");
     element.classList.add("shown");

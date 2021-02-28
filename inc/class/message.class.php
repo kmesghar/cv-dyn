@@ -52,10 +52,16 @@
             return MessageDAO::getNotReadCount();
         }
 
-        public static function loadAll(int $filterMode): array {
+        public static function count(int $filterMode): int {
             include_once __DIR__ . "/../dal/message.dao.php";
 
-            return MessageDAO::loadAll($filterMode);
+            return MessageDAO::count($filterMode);
+        }
+
+        public static function loadAll(int $filterMode, int $first, int $perPage): array {
+            include_once __DIR__ . "/../dal/message.dao.php";
+
+            return MessageDAO::loadAll($filterMode, $first, $perPage);
         }
 
         public function get(int $id): bool {
@@ -77,14 +83,88 @@
             } else return false;
         }
 
+        public function setFlagRead(): bool {
+            include_once __DIR__ . "/../dal/message.dao.php";
+            // Marquer comme lu (flag read en base de données)
+
+            if (MessageDAO::setFlagRead($this-> id)) {
+                $this-> read = true;
+
+                return true;
+            } else return false;
+        }
+
+        public static function _setFlagRead(int $id): bool {
+            include_once __DIR__ . "/../dal/message.dao.php";
+            // Marquer comme lu (flag read en base de données)
+
+            if (MessageDAO::setFlagRead($id)) {
+                return true;
+            } else return false;
+        }
+
+        public function unsetFlagRead(): bool {
+            include_once __DIR__ . "/../dal/message.dao.php";
+            // Marquer comme non lu (flag read en base de données)
+
+            if (MessageDAO::unsetFlagRead($this-> id)) {
+                $this-> read = false;
+                
+                return true;
+            } else return false;
+        }
+
+        public function setFlagarchive(): bool {
+            include_once __DIR__ . "/../dal/message.dao.php";
+            // Marquer comme archivé (flag archive en base de données)
+
+            if (MessageDAO::setFlagarchive($this-> id)) {
+                $this-> archive = true;
+
+                return true;
+            } else return false;
+        }
+
+        public function unsetFlagArchive(): bool {
+            include_once __DIR__ . "/../dal/message.dao.php";
+            // Marquer comme non archivé (flag archive en base de données)
+
+            if (MessageDAO::setFlagarchive($this-> id)) {
+                $this-> archive = false;
+
+                return true;
+            } else return false;
+        }
 
         public function delete(): bool {
+            include_once __DIR__ . "/../dal/message.dao.php";
             // Mettre dans la corbeille (flag corbeille en base de données)
 
+            if (MessageDAO::delete($this-> id)) {
+                $this-> trash = true;
+
+                return true;
+            } else return false;
+        }
+
+        public function restore(): bool {
+            include_once __DIR__ . "/../dal/message.dao.php";
+            // Restaurer depuis la corbeille (flag corbeille en base de données)
+
+            if (MessageDAO::restore($this-> id)) {
+                $this-> trash = false;
+
+                return true;
+            } else return false;
         }
 
         public function drop(): bool {
+            include_once __DIR__ . "/../dal/message.dao.php";
             // Supprimer définitivement
+
+            if (MessageDAO::drop($this-> id)) {
+                return true;
+            } else return false;
         }
 
         /**
