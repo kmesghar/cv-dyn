@@ -77,6 +77,8 @@
                     <th></th>
                     <th></th>
                     <th></th>
+                    <th></th>
+                    <th></th>
                 </tr>
             </thead>
             <tbody>
@@ -93,11 +95,11 @@
 
                         <td class="text-nowrap"> <?= $message-> getSubject(); ?> </td>
 
-                        <td>
+                        <td class="px-1">
                             <button class="btn btn-sm btn-outline-secondary" data-toggle="modal" data-target="#modal-<?= $message-> getId(); ?>" title="Ouvrir le message"><i class="fas fa-eye"></i></button>
                         </td>
 
-                        <td>
+                        <td class="px-1">
                             <form action="">
                                 <input type="hidden" name="message" value="<?= $message-> getId(); ?>">
                                 <input type="hidden" name="action" value="reply">
@@ -105,7 +107,7 @@
                             </form>
                         </td>
 
-                        <td>
+                        <td class="px-1">
                             <form action="">
                                 <input type="hidden" name="message" value="<?= $message-> getId(); ?>">
                                 <input type="hidden" name="action" value="reply">
@@ -113,7 +115,15 @@
                             </form>
                         </td>
 
-                        <td>
+                        <td class="px-1">
+                            <form action="">
+                                <input type="hidden" name="message" value="<?= $message-> getId(); ?>">
+                                <input type="hidden" name="action" value="delete">
+                                <button class="btn btn-sm btn-outline-secondary" title="Archiver le message"><i class="fas fa-archive"></i></button>
+                            </form>
+                        </td>
+
+                        <td class="px-1">
                             <form action="">
                                 <input type="hidden" name="message" value="<?= $message-> getId(); ?>">
                                 <input type="hidden" name="action" value="delete">
@@ -150,6 +160,7 @@
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-outline-danger"><i class="fas fa-trash-alt"></i> Supprimer</button>
+                                        <button type="button" class="btn btn-outline-warning"><i class="fas fa-archive"></i> Archiver</button>
                                         <button type="button" class="btn btn-outline-secondary"><i class="fas fa-reply"></i> Répondre</button>
                                         <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fas fa-times"></i> Fermer</button>
                                     </div>
