@@ -42,7 +42,7 @@
                                 <a href="./" class="nav-link <?php if ($page == "home") echo "active"; ?>">Accueil</a>
                             </li>
                             <li class="nav-item">
-                                <a href="./my-cv.php" class="nav-link <?php if ($page == "my-cv") echo "active"; ?>">Mon CV</a>
+                                <a href="./my-cv.php" class="nav-link <?php if ($page == "my-resume") echo "active"; ?>">Mon CV</a>
                             </li>
                             <li class="nav-item">
                                 <a href="./my-porte-folio.php" class="nav-link <?php if ($page == "my-portefolio") echo "active"; ?>">Mon Porte-Folio</a>
