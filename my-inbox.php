@@ -35,6 +35,10 @@
             case "reply":
                 break;
             case "archive":
+                Message::_setFlagArchive($_POST["message"]);
+                break;
+            case "unarchive":
+                Message::_unsetFlagArchive($_POST["message"]);
                 break;
             case "delete":
                 break;
@@ -177,6 +181,12 @@
     
     $page = "my-inbox";
     include_once "inc/parts/header.php";
+
+    /**
+     * En cas d'inactivité !
+     */
+    if (!isset($_SESSION["user"]))
+        header("Location: ./");
 ?>
     <main class="container mt-3">
         <h1>Mon CV en ligne dynamique avec porte-folio !</h1>
@@ -260,11 +270,19 @@
                         </td>
 
                         <td class="px-1">
-                            <form action="" method="post">
-                                <input type="hidden" name="message" value="<?= $message-> getId(); ?>">
-                                <input type="hidden" name="action" value="archive">
-                                <button class="btn btn-sm btn-outline-secondary w-100" title="Archiver le message"><i class="fas fa-archive"></i></button>
-                            </form>
+                            <?php if($message-> getArchived()): ?>
+                                <form action="" method="post">
+                                    <input type="hidden" name="message" value="<?= $message-> getId(); ?>">
+                                    <input type="hidden" name="action" value="unarchive">
+                                    <button class="btn btn-sm btn-outline-secondary w-100" title="Restaurer le message depuis les archives"><i class="fas fa-inbox"></i></button>
+                                </form>
+                            <?php else: ?>
+                                <form action="" method="post">
+                                    <input type="hidden" name="message" value="<?= $message-> getId(); ?>">
+                                    <input type="hidden" name="action" value="archive">
+                                    <button class="btn btn-sm btn-outline-secondary w-100" title="Archiver le message"><i class="fas fa-archive"></i></button>
+                                </form>
+                            <?php endif; ?>
                         </td>
 
                         <td class="px-1">
@@ -305,9 +323,13 @@
                                 recu le <?=  $message-> getDate()-> format("d/m/Y"); ?> à <?=  $message-> getDate()-> format("H:i"); ?><br>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-outline-danger"><i class="fas fa-trash-alt"></i> Supprimer</button>
-                            <button type="button" class="btn btn-outline-warning"><i class="fas fa-archive"></i> Archiver</button>
-                            <button type="button" class="btn btn-outline-secondary"><i class="fas fa-reply"></i> Répondre</button>
+                            <button type="button" class="btn btn-outline-danger" title="Mettre le message dans la corbeille"><i class="fas fa-trash-alt"></i> Supprimer</button>
+                            <?php if ($message-> getArchived()): ?>
+                                <button type="button" class="btn btn-outline-warning" title="Restaurer depuis les archives"><i class="fas fa-inbox"></i></i> Restaurer</button>
+                            <?php else: ?>
+                                <button type="button" class="btn btn-outline-warning" title="Archiver le message"><i class="fas fa-archive"></i> Archiver</button>
+                            <?php endif; ?>
+                            <button type="button" class="btn btn-outline-secondary" title="Répondre au message"><i class="fas fa-reply"></i> Répondre</button>
                             <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fas fa-times"></i> Fermer</button>
                         </div>
                     </div>

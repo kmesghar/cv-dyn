@@ -198,12 +198,56 @@
             // Marquer comme non lu (flag read en base de données)
         }
 
-        public static function setFlagarchive(int $id): bool {
+        public static function setFlagArchive(int $id): bool {
+            include_once __DIR__ . "/database.php";
+
             // Marquer comme archivé (flag archive en base de données)
+            $sql = "UPDATE messages SET _archive=1 WHERE id=:id";
+
+            try {
+                $connexionString = "mysql: host=" . Database::HOST . "; port=" . Database::PORT . "; dbname=" . Database::DBNAME . "; charset=utf8";
+                $database = new PDO($connexionString, Database::DBUSER, Database::DBPASS);
+                $database-> setattribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+                $query = $database-> prepare($sql);
+
+                $query->bindParam(':id', $id, PDO::PARAM_INT);
+
+                if ($query-> execute()) {
+                    return true;
+                } else {
+                    return false;
+                }
+            } catch (Exception $exc) {
+                var_dump($exc);
+                return false;
+            }
         }
 
         public static function unsetFlagArchive(int $id): bool {
+            include_once __DIR__ . "/database.php";
+
             // Marquer comme non archivé (flag archive en base de données)
+            $sql = "UPDATE messages SET _archive=0 WHERE id=:id";
+
+            try {
+                $connexionString = "mysql: host=" . Database::HOST . "; port=" . Database::PORT . "; dbname=" . Database::DBNAME . "; charset=utf8";
+                $database = new PDO($connexionString, Database::DBUSER, Database::DBPASS);
+                $database-> setattribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+                $query = $database-> prepare($sql);
+
+                $query->bindParam(':id', $id, PDO::PARAM_INT);
+
+                if ($query-> execute()) {
+                    return true;
+                } else {
+                    return false;
+                }
+            } catch (Exception $exc) {
+                var_dump($exc);
+                return false;
+            }
         }
 
         public static function delete(int $id): bool {

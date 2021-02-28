@@ -284,6 +284,12 @@
     
     $page = "my-dashboard";
     include_once "inc/parts/header.php";
+
+    /**
+     * En cas d'inactivité !
+     */
+    if (!isset($_SESSION["user"]))
+        header("Location: ./");
 ?>
     <main class="container mt-3">
         <h1>Mon CV en ligne dynamique avec porte-folio !</h1>

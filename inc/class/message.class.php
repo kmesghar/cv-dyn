@@ -114,7 +114,7 @@
             } else return false;
         }
 
-        public function setFlagarchive(): bool {
+        public function setFlagArchive(): bool {
             include_once __DIR__ . "/../dal/message.dao.php";
             // Marquer comme archivé (flag archive en base de données)
 
@@ -125,13 +125,31 @@
             } else return false;
         }
 
+        public static function _setFlagArchive(int $id): bool {
+            include_once __DIR__ . "/../dal/message.dao.php";
+            // Marquer comme archivé (flag archive en base de données)
+
+            if (MessageDAO::setFlagarchive($id)) {
+                return true;
+            } else return false;
+        }
+
         public function unsetFlagArchive(): bool {
             include_once __DIR__ . "/../dal/message.dao.php";
             // Marquer comme non archivé (flag archive en base de données)
 
-            if (MessageDAO::setFlagarchive($this-> id)) {
+            if (MessageDAO::unsetFlagArchive($this-> id)) {
                 $this-> archive = false;
 
+                return true;
+            } else return false;
+        }
+
+        public static function _unsetFlagArchive($id): bool {
+            include_once __DIR__ . "/../dal/message.dao.php";
+            // Marquer comme non archivé (flag archive en base de données)
+
+            if (MessageDAO::unsetFlagArchive($id)) {
                 return true;
             } else return false;
         }
