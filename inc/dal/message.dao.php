@@ -36,7 +36,7 @@
                     $sql = "SELECT * FROM messages WHERE _read=0 AND _archive=0 AND _trash=0;";
                     break;
                 case Message::LOAD_ONLY_READ:
-                    $sql = "SELECT * FROM messages WHERE _read=1  _archive=0 AND _trash=0;";
+                    $sql = "SELECT * FROM messages WHERE _read=1  AND _archive=0 AND _trash=0;";
                     break;
                 case Message::LOAD_ONLY_ARCHIVED:
                     $sql = "SELECT * FROM messages WHERE _archive=1 AND _trash=0;";

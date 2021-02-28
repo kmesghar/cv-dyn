@@ -11,7 +11,33 @@
     include_once "inc/class/message.class.php";
 
     $alert = new Alert();
-    $messages = Message::loadAll(Message::LOAD_ONLY_NOT_READ);
+    $filtre = "news";
+
+    if (!isset($_GET['filtre'])) {
+        $messages = Message::loadAll(Message::LOAD_ONLY_NOT_READ);
+    } else {
+        $filtre = $_GET['filtre'];
+        switch ($filtre) {
+            case "all":
+                $messages = Message::loadAll(Message::LOAD_ALL);
+                break;
+            case "news":
+                $messages = Message::loadAll(Message::LOAD_ONLY_NOT_READ);
+                break;
+            case "read":
+                $messages = Message::loadAll(Message::LOAD_ONLY_READ);
+                break;
+            case "archives":
+                $messages = Message::loadAll(Message::LOAD_ONLY_ARCHIVED);
+                break;
+            case "trash":
+                $messages = Message::loadAll(Message::LOAD_ONLY_TRASHED);
+                break;
+            default:
+                $messages = Message::loadAll(Message::LOAD_ONLY_NOT_READ);
+                break;
+        }
+    }
     
     $page = "my-inbox";
     include_once "inc/parts/header.php";
@@ -26,15 +52,15 @@
             <?= $alert; ?>
         <?php endif; ?>
         
-        <form action="" class="mt-3 float-right">
+        <form action="" class="mt-3 float-right" id="filtre">
             <div class="form-group form-inline">
                 <label for="filtre">Filtrer&nbsp;:&nbsp;&nbsp;
-                    <select name="filtre" id="filtre" class="form-control">
-                        <option value="all">Tous mes messages</option>
-                        <option value="news">Non lus seulement</option>
-                        <option value="read">Lus seulement</option>
-                        <option value="archives">Voir les message archivés</option>
-                        <option value="trash">Voir les message dans la corbeille</option>
+                    <select name="filtre" id="filtre" class="form-control" onchange="document.getElementById('filtre').submit()">
+                        <option value="all" <?php if ($filtre=="all") echo "selected"; ?>>Tous mes messages</option>
+                        <option value="news" <?php if ($filtre=="news") echo "selected"; ?>>Non lus seulement</option>
+                        <option value="read" <?php if ($filtre=="read") echo "selected"; ?>>Lus seulement</option>
+                        <option value="archives" <?php if ($filtre=="archives") echo "selected"; ?>>Voir les message archivés</option>
+                        <option value="trash" <?php if ($filtre=="trash") echo "selected"; ?>>Voir les message dans la corbeille</option>
                     </select>
                 </label>
             </div>
