@@ -15,7 +15,7 @@
     $formations = Formation::loadAll();
     $loisirs = Loisir::loadAll();
     
-    $page = "my-cv";
+    $page = "my-resume";
     include_once "inc/parts/header.php";
 ?>
     <main class="container mt-3">
