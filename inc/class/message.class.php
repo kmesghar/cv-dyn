@@ -145,7 +145,7 @@
             } else return false;
         }
 
-        public static function _unsetFlagArchive($id): bool {
+        public static function _unsetFlagArchive(int $id): bool {
             include_once __DIR__ . "/../dal/message.dao.php";
             // Marquer comme non archivé (flag archive en base de données)
 
@@ -165,6 +165,15 @@
             } else return false;
         }
 
+        public static function _delete(int $id): bool {
+            include_once __DIR__ . "/../dal/message.dao.php";
+            // Mettre dans la corbeille (flag corbeille en base de données)
+
+            if (MessageDAO::delete($id)) {
+                return true;
+            } else return false;
+        }
+
         public function restore(): bool {
             include_once __DIR__ . "/../dal/message.dao.php";
             // Restaurer depuis la corbeille (flag corbeille en base de données)
@@ -172,6 +181,15 @@
             if (MessageDAO::restore($this-> id)) {
                 $this-> trash = false;
 
+                return true;
+            } else return false;
+        }
+
+        public static function _restore(int $id): bool {
+            include_once __DIR__ . "/../dal/message.dao.php";
+            // Restaurer depuis la corbeille (flag corbeille en base de données)
+
+            if (MessageDAO::restore($id)) {
                 return true;
             } else return false;
         }

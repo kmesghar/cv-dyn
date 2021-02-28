@@ -41,6 +41,10 @@
                 Message::_unsetFlagArchive($_POST["message"]);
                 break;
             case "delete":
+                Message::_delete($_POST["message"]);
+                break;
+            case "restore":
+                Message::_restore($_POST["message"]);
                 break;
             case "drop":
                 break;
@@ -246,51 +250,65 @@
                         </td>
 
                         <td class="px-1" id="form-mark-read">
-                            <?php if ($message-> getRead()) : ?>
+                            <?php if (!$message-> getDeleted()): ?>
+                                <?php if ($message-> getRead()) : ?>
+                                    <form action="" method="post">
+                                        <input type="hidden" name="message" value="<?= $message-> getId(); ?>">
+                                        <input type="hidden" name="action" value="mark-unread">
+                                        <button class="btn btn-sm btn-outline-secondary w-100" title="Marquer comme non lu"><i class="far fa-bell"></i></button>
+                                    </form>
+                                <?php else: ?>
+                                    <form action="" method="post">
+                                        <input type="hidden" name="message" value="<?= $message-> getId(); ?>">
+                                        <input type="hidden" name="action" value="mark-read">
+                                        <button class="btn btn-sm btn-outline-secondary w-100" title="Marquer comme lu"><i class="far fa-bell-slash"></i></button>
+                                    </form>
+                                <?php endif; ?>
+                            <?php endif; ?>
+                        </td>
+
+                        <td class="px-1">
+                            <?php if (!$message-> getDeleted()): ?>
                                 <form action="" method="post">
                                     <input type="hidden" name="message" value="<?= $message-> getId(); ?>">
-                                    <input type="hidden" name="action" value="mark-unread">
-                                    <button class="btn btn-sm btn-outline-secondary w-100" title="Marquer comme non lu"><i class="far fa-bell"></i></button>
-                                </form>
-                            <?php else: ?>
-                                <form action="" method="post">
-                                    <input type="hidden" name="message" value="<?= $message-> getId(); ?>">
-                                    <input type="hidden" name="action" value="mark-read">
-                                    <button class="btn btn-sm btn-outline-secondary w-100" title="Marquer comme lu"><i class="far fa-bell-slash"></i></button>
+                                    <input type="hidden" name="action" value="reply">
+                                    <button class="btn btn-sm btn-outline-secondary w-100" title="Répondre au message"><i class="fas fa-reply"></i></button>
                                 </form>
                             <?php endif; ?>
                         </td>
 
                         <td class="px-1">
-                            <form action="" method="post">
-                                <input type="hidden" name="message" value="<?= $message-> getId(); ?>">
-                                <input type="hidden" name="action" value="reply">
-                                <button class="btn btn-sm btn-outline-secondary w-100" title="Répondre au message"><i class="fas fa-reply"></i></button>
-                            </form>
-                        </td>
-
-                        <td class="px-1">
-                            <?php if($message-> getArchived()): ?>
-                                <form action="" method="post">
-                                    <input type="hidden" name="message" value="<?= $message-> getId(); ?>">
-                                    <input type="hidden" name="action" value="unarchive">
-                                    <button class="btn btn-sm btn-outline-secondary w-100" title="Restaurer le message depuis les archives"><i class="fas fa-inbox"></i></button>
-                                </form>
-                            <?php else: ?>
-                                <form action="" method="post">
-                                    <input type="hidden" name="message" value="<?= $message-> getId(); ?>">
-                                    <input type="hidden" name="action" value="archive">
-                                    <button class="btn btn-sm btn-outline-secondary w-100" title="Archiver le message"><i class="fas fa-archive"></i></button>
-                                </form>
+                            <?php if (!$message-> getDeleted()): ?>
+                                <?php if ($message-> getArchived()): ?>
+                                    <form action="" method="post">
+                                        <input type="hidden" name="message" value="<?= $message-> getId(); ?>">
+                                        <input type="hidden" name="action" value="unarchive">
+                                        <button class="btn btn-sm btn-outline-secondary w-100" title="Restaurer le message depuis les archives"><i class="fas fa-inbox"></i></button>
+                                    </form>
+                                <?php else: ?>
+                                    <form action="" method="post">
+                                        <input type="hidden" name="message" value="<?= $message-> getId(); ?>">
+                                        <input type="hidden" name="action" value="archive">
+                                        <button class="btn btn-sm btn-outline-secondary w-100" title="Archiver le message"><i class="fas fa-archive"></i></button>
+                                    </form>
+                                <?php endif; ?>
                             <?php endif; ?>
                         </td>
 
                         <td class="px-1">
-                            <form action="" method="post">
-                                <input type="hidden" name="message" value="<?= $message-> getId(); ?>">
-                                <input type="hidden" name="action" value="delete">
-                                <button class="btn btn-sm btn-outline-secondary w-100" title="Supprimer le message"><i class="fas fa-trash-alt"></i></button>
-                            </form>
+                            <?php if ($message-> getDeleted()): ?>
+                                <form action="" method="post">
+                                    <input type="hidden" name="message" value="<?= $message-> getId(); ?>">
+                                    <input type="hidden" name="action" value="restore">
+                                    <button class="btn btn-sm btn-outline-secondary w-100" title="Restaurer le message"><i class="fas fa-trash-restore"></i></button>
+                                </form>
+                            <?php else: ?>
+                                <form action="" method="post">
+                                    <input type="hidden" name="message" value="<?= $message-> getId(); ?>">
+                                    <input type="hidden" name="action" value="delete">
+                                    <button class="btn btn-sm btn-outline-secondary w-100" title="Supprimer le message"><i class="fas fa-trash-alt"></i></button>
+                                </form>
+                            <?php endif; ?>
                         </td>
                     </tr>
                 <?php } ?>

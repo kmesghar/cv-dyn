@@ -252,13 +252,56 @@
 
         public static function delete(int $id): bool {
             include_once __DIR__ . "/database.php";
+
+            // Marquer supprimé (flag trash en base de données = corbeille)
             
-            $sql = "UPDATE messages SET trash = 1 WHERE id = :id;";
+            $sql = "UPDATE messages SET _trash = 1 WHERE id = :id;";
+
+            try {
+                $connexionString = "mysql: host=" . Database::HOST . "; port=" . Database::PORT . "; dbname=" . Database::DBNAME . "; charset=utf8";
+                $database = new PDO($connexionString, Database::DBUSER, Database::DBPASS);
+                $database-> setattribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+                $query = $database-> prepare($sql);
+
+                $query->bindParam(':id', $id, PDO::PARAM_INT);
+
+                if ($query-> execute()) {
+                    return true;
+                } else {
+                    return false;
+                }
+            } catch (Exception $exc) {
+                var_dump($exc);
+                return false;
+            }
         }
 
-        public function restore(int $id): bool {
-            // Restaurer depuis la corbeille (flag corbeille en base de données)
+        public static function restore(int $id): bool {
+            include_once __DIR__ . "/database.php";
+            
+            // Restaurer depuis la corbeille (flag trash en base de données)
+            
+            $sql = "UPDATE messages SET _trash = 0 WHERE id = :id;";
 
+            try {
+                $connexionString = "mysql: host=" . Database::HOST . "; port=" . Database::PORT . "; dbname=" . Database::DBNAME . "; charset=utf8";
+                $database = new PDO($connexionString, Database::DBUSER, Database::DBPASS);
+                $database-> setattribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+                $query = $database-> prepare($sql);
+
+                $query->bindParam(':id', $id, PDO::PARAM_INT);
+
+                if ($query-> execute()) {
+                    return true;
+                } else {
+                    return false;
+                }
+            } catch (Exception $exc) {
+                var_dump($exc);
+                return false;
+            }
         }
 
         public static function drop(int $id): bool {

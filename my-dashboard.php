@@ -535,11 +535,11 @@
 
                             <div class="row mb-2">
                                 <div class="col-6 col-lg-8">Mon niveau :
-                                    <input id="star1" class="star" type="checkbox" title="Mon niveau 1/5" onclick="click_star1();" checked>
-                                    <input id="star2" class="star" type="checkbox" title="Mon niveau 3/5" onclick="click_star2();">
-                                    <input id="star3" class="star" type="checkbox" title="Mon niveau 2/5" onclick="click_star3();">
-                                    <input id="star4" class="star" type="checkbox" title="Mon niveau 4/5" onclick="click_star4();">
-                                    <input id="star5" class="star" type="checkbox" title="Mon niveau 5/5" onclick="click_star5();">
+                                    <input name="star1" id="star1" class="star" type="checkbox" title="Mon niveau 1/5" onclick="click_star1();" checked>
+                                    <input name="star2" id="star2" class="star" type="checkbox" title="Mon niveau 3/5" onclick="click_star2();">
+                                    <input name="star3" id="star3" class="star" type="checkbox" title="Mon niveau 2/5" onclick="click_star3();">
+                                    <input name="star4" id="star4" class="star" type="checkbox" title="Mon niveau 4/5" onclick="click_star4();">
+                                    <input name="star5" id="star5" class="star" type="checkbox" title="Mon niveau 5/5" onclick="click_star5();">
                                 </div>
                                 <div class="col-6 col-lg-4 text-right">
                                     <button class="btn btn-secondary w-100">Ajouter une nouvelle compétence</button>
