@@ -43,7 +43,7 @@
         }
 
         public function __toString() {
-            return strtoupper($this-> nom) . " " . ucfirst($this-> prenom);
+            return ucfirst($this-> prenom) . " " . strtoupper($this-> nom);
         }
 
         private function clone(User $user): void {
