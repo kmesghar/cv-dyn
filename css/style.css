@@ -41,3 +41,18 @@ main {
     top: -15px;
     position: absolute;
 }
+
+#login-main {
+    /** Image from:
+    *   https://pixabay.com/fr/users/nietjuh-2218222/ 
+    */
+    background-image: url("../ressources/img/bakgrounds/table-3997521_1920.jpg");
+    /* background-position: center; */
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
+}
+
+.bg-form {
+    background-color: rgba(85, 168, 241, 0.3);
+}

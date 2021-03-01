@@ -92,9 +92,11 @@
         <section id="competences">
             <h4>Compétences</h4>
 
-            <div class="pl-2 border">
+            <div class="row border rounded-lg mb-3">
                 <?php foreach ($competences as $item) : ?>
-                    <?= $item; ?>
+                    <div class="col-12 col-md-6 col-lg-3 px-3 py-3">
+                        <?= $item; ?>
+                    </div>
                 <?php endforeach; ?>
             </div>
         </section>

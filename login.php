@@ -36,8 +36,8 @@
     $page = "login";
     include_once "inc/parts/header.php";
 ?>
-    <main class="container mt-3 mb-3">
-        <h3>Connectez-vous !</h3>
+    <main class="container mt-3 mb-5 pb-5 rounded-lg" id="login-main">
+        <h3 class="mb-5 text-secondary text-center">Connectez-vous !</h3>
 
         <?php if ($alert->isset()) : ?>
         
@@ -49,8 +49,8 @@
 
         <?php endif; ?>
 
-        <div class="row justify-content-center">
-            <div class="col-6">
+        <div class="row justify-content-center mb-5">
+            <div class="col-6 bg-form rounded-lg">
                 <form action="login.php" method="post" class="my-5">
                     <div class="form-group">
                         <input type="email" name="email" id="email" class="form-control" placeholder="Email" value="<?=$email;?>" required>

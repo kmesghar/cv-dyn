@@ -535,11 +535,16 @@
 
                             <div class="row mb-2">
                                 <div class="col-6 col-lg-8">Mon niveau :
-                                    <input name="star1" id="star1" class="star" type="checkbox" title="Mon niveau 1/5" onclick="click_star1();" checked>
-                                    <input name="star2" id="star2" class="star" type="checkbox" title="Mon niveau 3/5" onclick="click_star2();">
-                                    <input name="star3" id="star3" class="star" type="checkbox" title="Mon niveau 2/5" onclick="click_star3();">
-                                    <input name="star4" id="star4" class="star" type="checkbox" title="Mon niveau 4/5" onclick="click_star4();">
-                                    <input name="star5" id="star5" class="star" type="checkbox" title="Mon niveau 5/5" onclick="click_star5();">
+                                    <input name="star1" id="star1" class="star" type="checkbox" title="Mon niveau 1/10" onclick="click_star(1);" checked>
+                                    <input name="star2" id="star2" class="star" type="checkbox" title="Mon niveau 3/10" onclick="click_star(2);">
+                                    <input name="star3" id="star3" class="star" type="checkbox" title="Mon niveau 2/10" onclick="click_star(3);">
+                                    <input name="star4" id="star4" class="star" type="checkbox" title="Mon niveau 4/10" onclick="click_star(4);">
+                                    <input name="star5" id="star5" class="star" type="checkbox" title="Mon niveau 5/10" onclick="click_star(5);">
+                                    <input name="star6" id="star6" class="star" type="checkbox" title="Mon niveau 6/10" onclick="click_star(6);">
+                                    <input name="star7" id="star7" class="star" type="checkbox" title="Mon niveau 7/10" onclick="click_star(7);">
+                                    <input name="star8" id="star8" class="star" type="checkbox" title="Mon niveau 8/10" onclick="click_star(8);">
+                                    <input name="star9" id="star9" class="star" type="checkbox" title="Mon niveau 9/10" onclick="click_star(9);">
+                                    <input name="star10" id="star10" class="star" type="checkbox" title="Mon niveau 10/10" onclick="click_star(10);">
                                 </div>
                                 <div class="col-6 col-lg-4 text-right">
                                     <button class="btn btn-secondary w-100">Ajouter une nouvelle compétence</button>
@@ -566,7 +571,7 @@
                             <tr>
                                 <th scope="row" class="px-2">1</th>
                                 <td class="px-2 text-nowrap"><i class="fab fa-2x fa-html5"></i></td>
-                                <td class="px-2 text-nowrap">1/5</td>
+                                <td class="px-2 text-nowrap">1/10</td>
                                 <td class="px-2 text-nowrap">HTML 5</td>
                                 <td class="px-2 w-100">Sa description...</td>
                                 <td><button class="btn btn-sm btn-outline-secondary"><i class="fas fa-eye"></i></button></td>
